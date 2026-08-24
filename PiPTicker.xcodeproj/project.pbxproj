@@ -26,6 +26,7 @@
 		01010019 /* GlobalMarketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010019 /* GlobalMarketView.swift */; };
 		01010020 /* StrengthRankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010020 /* StrengthRankManager.swift */; };
 		01010021 /* StrengthRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010021 /* StrengthRankView.swift */; };
+		01010022 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02010022 /* Assets.xcassets */; };
 		7BF90C7B30381D8D0097AB7A /* MacFloatingWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */; };
 		7BF90C7D30381D9D0097AB7A /* MacFloatingStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		02010019 /* GlobalMarketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMarketView.swift; sourceTree = "<group>"; };
 		02010020 /* StrengthRankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthRankManager.swift; sourceTree = "<group>"; };
 		02010021 /* StrengthRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthRankView.swift; sourceTree = "<group>"; };
+		02010022 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingWindowManager.swift; sourceTree = "<group>"; };
 		7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingStockView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				04010003 /* App */,
+				02010022 /* Assets.xcassets */,
 				04010004 /* Models */,
 				04010005 /* Services */,
 				04010006 /* Views */,
@@ -202,6 +205,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01010022 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

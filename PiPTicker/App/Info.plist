@@ -6,6 +6,8 @@
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
 	<string>PiP 行情悬浮窗</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
