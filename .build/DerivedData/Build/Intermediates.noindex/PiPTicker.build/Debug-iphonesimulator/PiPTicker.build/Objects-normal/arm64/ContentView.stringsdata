@@ -1,0 +1,488 @@
+{
+  "source": "/Users/du/Desktop/PiPTicker/PiPTicker/Views/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "A股行情 · 画中画",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 173
+        }
+      },
+      {
+        "comment": "",
+        "key": "行情看板",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 193
+        }
+      },
+      {
+        "comment": "",
+        "key": "7x24 实时快讯",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 200
+        }
+      },
+      {
+        "comment": "",
+        "key": "7x24快讯",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 205
+        }
+      },
+      {
+        "comment": "",
+        "key": "A股全景复盘",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 212
+        }
+      },
+      {
+        "comment": "",
+        "key": "A股复盘",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 217
+        }
+      },
+      {
+        "comment": "",
+        "key": "全球核心市场",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 224
+        }
+      },
+      {
+        "comment": "",
+        "key": "全球市场",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 229
+        }
+      },
+      {
+        "comment": "",
+        "key": "模拟数据模式运行中",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 386
+        }
+      },
+      {
+        "comment": "",
+        "key": "A股状态: %@",
+        "location": {
+          "startingColumn": 73,
+          "startingLine": 386
+        }
+      },
+      {
+        "comment": "",
+        "key": "16:9 宽屏悬浮窗效果预览 (%lld只自适应全铺满)",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 409
+        }
+      },
+      {
+        "comment": "",
+        "key": "极宽满屏 · 解锁全宽",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 416
+        }
+      },
+      {
+        "comment": "",
+        "key": "● A股 %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 430
+        }
+      },
+      {
+        "comment": "",
+        "key": "关闭画中画",
+        "location": {
+          "startingColumn": 51,
+          "startingLine": 559
+        }
+      },
+      {
+        "comment": "",
+        "key": "开启 16:9 极宽悬浮窗 (展示 %lld 只)",
+        "location": {
+          "startingColumn": 71,
+          "startingLine": 559
+        }
+      },
+      {
+        "comment": "",
+        "key": "全部自选股 (%lld只)",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 608
+        }
+      },
+      {
+        "comment": "",
+        "key": "添加股票",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 621
+        }
+      },
+      {
+        "comment": "",
+        "key": "搜索并添加股票 / 指数 / ETF",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 672
+        }
+      },
+      {
+        "comment": "",
+        "key": "完成",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 675
+        }
+      },
+      {
+        "comment": "",
+        "key": "输入股票名称、简拼或代码 (如 茅台 / byd / 600519)",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 689
+        }
+      },
+      {
+        "comment": "",
+        "key": "搜索联想结果 (%lld个)：",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 716
+        }
+      },
+      {
+        "comment": "",
+        "key": "已在自选",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 758
+        }
+      },
+      {
+        "comment": "",
+        "key": "(%@)",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 739
+        }
+      },
+      {
+        "comment": "",
+        "key": "· %@",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 749
+        }
+      },
+      {
+        "comment": "",
+        "key": "添加",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 776
+        }
+      },
+      {
+        "comment": "",
+        "key": "未检索到包含「%@」的股票，您可直接按代码添加：",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 798
+        }
+      },
+      {
+        "comment": "",
+        "key": "按「%@」直接添加",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 811
+        }
+      },
+      {
+        "comment": "",
+        "key": "💡 常用指数与热门标的快速添加：",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 826
+        }
+      },
+      {
+        "comment": "",
+        "key": "画中画与行情偏好",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 897
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 913
+        }
+      },
+      {
+        "comment": "",
+        "key": "展示股票数量: %lld 只",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 905
+        }
+      },
+      {
+        "comment": "",
+        "key": "支持 1 ~ 8 只，16:9 宽屏自动等比铺满全宽画布",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 907
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld只",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 934
+        }
+      },
+      {
+        "comment": "",
+        "key": "回到桌面自动开启",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 952
+        }
+      },
+      {
+        "comment": "",
+        "key": "离开 App 时自动弹出 16:9 极宽行情画中画",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 954
+        }
+      },
+      {
+        "comment": "",
+        "key": "红涨绿跌配色",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 969
+        }
+      },
+      {
+        "comment": "",
+        "key": "当前：红涨绿跌（A股大陆标准）",
+        "location": {
+          "startingColumn": 49,
+          "startingLine": 971
+        }
+      },
+      {
+        "comment": "",
+        "key": "当前：绿涨红跌（国际习惯）",
+        "location": {
+          "startingColumn": 97,
+          "startingLine": 971
+        }
+      },
+      {
+        "comment": "",
+        "key": "模拟行情波动模式",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 988
+        }
+      },
+      {
+        "comment": "",
+        "key": "在周末或非交易时段生成动态跳动行情用于演示",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 990
+        }
+      },
+      {
+        "comment": "",
+        "key": "抓取到自选个股或所属概念的利好/利空/突发时，立即弹窗与系统推送",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1071
+        }
+      },
+      {
+        "comment": "",
+        "key": "自选股与概念题材推送提醒",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1068
+        }
+      },
+      {
+        "comment": "",
+        "key": "系统通知权限未开启，点击前往系统设置允许推送",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1089
+        }
+      },
+      {
+        "comment": "",
+        "key": "快讯自动抓取轮询",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1109
+        }
+      },
+      {
+        "comment": "",
+        "key": "当前：%lld 秒自动抓取最新全网电报与推特",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1111
+        }
+      },
+      {
+        "comment": "",
+        "key": "(剩余 %lld 条)",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1188
+        }
+      },
+      {
+        "comment": "",
+        "key": "全网重大突发",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 1208
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ (%@)",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1301
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI: %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1290
+        }
+      },
+      {
+        "comment": "",
+        "key": "查看详情",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1334
+        }
+      },
+      {
+        "comment": "",
+        "key": "下一条 (%lld)",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 1348
+        }
+      },
+      {
+        "comment": "",
+        "key": "知道了",
+        "location": {
+          "startingColumn": 81,
+          "startingLine": 1348
+        }
+      },
+      {
+        "comment": "",
+        "key": "全部已读",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1362
+        }
+      },
+      {
+        "comment": "",
+        "key": "💡 16:9 极宽画中画与 7x24 快讯使用贴士",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1391
+        }
+      },
+      {
+        "comment": "",
+        "key": "1. 支持搜索股票中文名（如“茅台”）、简拼（如“gzmt”）或 6 位代码，实时联想秒级添加。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1397
+        }
+      },
+      {
+        "comment": "",
+        "key": "2. 7x24 实时快讯汇聚财联社、华尔街见闻、新浪全球、东方财富、彭博/路透/推特官方编译。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1398
+        }
+      },
+      {
+        "comment": "",
+        "key": "3. 快讯中提及的股票代码支持一键直接添加到自选股。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1399
+        }
+      },
+      {
+        "comment": "",
+        "key": "4. 长按任意自选股票上下拖拽可快速调整画中画展示席位，向左滑动可删除。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1400
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1508
+        }
+      },
+      {
+        "comment": "",
+        "key": "PiP 席位 %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1582
+        }
+      }
+    ]
+  },
+  "version": 1
+}

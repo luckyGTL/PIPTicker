@@ -1,0 +1,61 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "8914c4d27c646ed78fdf0eabc64dae5b3e1c0f7f50216f9a62fd358a64c5b6e4"
+    }
+  ],
+  "containerPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "undefined_arch",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator17.0",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "i386",
+        "x86_64"
+      ],
+      "targetArchitecture" : "undefined_arch"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Products",
+      "derivedDataPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "NO"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

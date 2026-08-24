@@ -1,0 +1,18 @@
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Models/TickerData.swift":
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/TickerData.d"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/TickerData.o"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/TickerData.swiftconstvalues"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/TickerData.swiftdeps"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/TickerData.dia"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Services/AudioSessionManager.swift":
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.d"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.swiftconstvalues"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.dia"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.o"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.swiftdeps"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Services/StockDataManager.swift":
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/StockDataManager.d"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/StockDataManager.dia"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/StockDataManager.o"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/StockDataManager.swiftdeps"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/x86_64/StockDataManager.swiftconstvalues"

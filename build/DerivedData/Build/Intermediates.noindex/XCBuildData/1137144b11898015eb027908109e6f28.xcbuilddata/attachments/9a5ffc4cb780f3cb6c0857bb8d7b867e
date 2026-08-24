@@ -1,0 +1,199 @@
+{
+  "" : {
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTicker-primary.dia",
+    "emit-module-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTicker-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTicker-primary-emit-module.dia",
+    "pch" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTicker-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTicker-primary.swiftdeps"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/App/PiPTickerApp.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerApp~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Models/GlobalMarketData.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketData~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Models/MarketRecapData.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapData~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Models/NewsData.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/NewsData~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Models/TickerData.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/TickerData~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/AudioSessionManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/AudioSessionManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/FinancialNewsManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/GlobalMarketManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/MacFloatingWindowManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingWindowManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/MarketRecapManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/PiPManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/StockDataManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockDataManager~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/StockSearchService.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/StockSearchService~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/ContentView.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/FinancialNewsView.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/FinancialNewsView~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/GlobalMarketView.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/GlobalMarketView~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/MacFloatingStockView.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MacFloatingStockView~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/MarketRecapView.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/MarketRecapView~partial.swiftmodule"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/PiPTickerViewController.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.dia",
+    "index-unit-output-path" : "/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.o",
+    "llvm-bc" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.bc",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.swiftdeps",
+    "swiftmodule" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController~partial.swiftmodule"
+  }
+}

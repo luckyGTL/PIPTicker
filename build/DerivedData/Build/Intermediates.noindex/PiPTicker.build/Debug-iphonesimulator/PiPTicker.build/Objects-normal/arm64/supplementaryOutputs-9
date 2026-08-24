@@ -1,0 +1,18 @@
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Models/MarketRecapData.swift":
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MarketRecapData.swiftconstvalues"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MarketRecapData.o"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MarketRecapData.swiftdeps"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MarketRecapData.d"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MarketRecapData.dia"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/FinancialNewsView.swift":
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/FinancialNewsView.swiftdeps"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/FinancialNewsView.dia"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/FinancialNewsView.o"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/FinancialNewsView.d"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/FinancialNewsView.swiftconstvalues"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Models/GlobalMarketData.swift":
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/GlobalMarketData.o"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/GlobalMarketData.swiftdeps"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/GlobalMarketData.swiftconstvalues"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/GlobalMarketData.d"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/GlobalMarketData.dia"

@@ -1,0 +1,312 @@
+{
+  "source": "/Users/du/Desktop/PiPTicker/PiPTicker/Views/FinancialNewsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "搜索财经要闻、个股、英伟达、海力士、巴菲特、推特大V...",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 94
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld秒",
+        "location": {
+          "startingColumn": 65,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld分",
+        "location": {
+          "startingColumn": 112,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "抓取",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "抓取间隔:",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 160
+        }
+      },
+      {
+        "comment": "",
+        "key": "自动实时抓取",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 195
+        }
+      },
+      {
+        "comment": "",
+        "key": "自选与概念弹窗推送",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 209
+        }
+      },
+      {
+        "comment": "",
+        "key": "开启系统推送权限",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 228
+        }
+      },
+      {
+        "comment": "",
+        "key": "大V聚焦:",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 284
+        }
+      },
+      {
+        "comment": "",
+        "key": "最近抓取: %@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 374
+        }
+      },
+      {
+        "comment": "",
+        "key": "全网 7x24 实时电报 · 共 %lld 条快讯",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 367
+        }
+      },
+      {
+        "comment": "",
+        "key": "正在加载更早历史快讯...",
+        "location": {
+          "startingColumn": 70,
+          "startingLine": 409
+        }
+      },
+      {
+        "comment": "",
+        "key": "⬇️ 下滑 / 点击加载更多历史快讯",
+        "location": {
+          "startingColumn": 138,
+          "startingLine": 409
+        }
+      },
+      {
+        "comment": "",
+        "key": "已加载全部近期资讯",
+        "location": {
+          "startingColumn": 189,
+          "startingLine": 409
+        }
+      },
+      {
+        "comment": "",
+        "key": "⬆️ 发现 %lld 条新快讯 · 点击立即加载并回顶部",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 459
+        }
+      },
+      {
+        "comment": "",
+        "key": "回顶部",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 493
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ (%@)",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 582
+        }
+      },
+      {
+        "comment": "",
+        "key": "重磅突发",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 569
+        }
+      },
+      {
+        "comment": "",
+        "key": "关联自选: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 594
+        }
+      },
+      {
+        "comment": "",
+        "key": "板块: %@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 608
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 624
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI: %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 637
+        }
+      },
+      {
+        "comment": "",
+        "key": "+自选",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 750
+        }
+      },
+      {
+        "comment": "",
+        "key": "自选",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 754
+        }
+      },
+      {
+        "comment": "",
+        "key": "暂无匹配的财经资讯",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 779
+        }
+      },
+      {
+        "comment": "",
+        "key": "重置筛选并刷新",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 789
+        }
+      },
+      {
+        "comment": "",
+        "key": "资讯详情",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 860
+        }
+      },
+      {
+        "comment": "",
+        "key": "🚨 全网重磅突发",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 907
+        }
+      },
+      {
+        "comment": "",
+        "key": "(%@)",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 898
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI研判: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 920
+        }
+      },
+      {
+        "comment": "",
+        "key": "关联股票与自选板块",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1010
+        }
+      },
+      {
+        "comment": "",
+        "key": "自选命中: %@ (%@)",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 1022
+        }
+      },
+      {
+        "comment": "",
+        "key": "所属板块: %@",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 1031
+        }
+      },
+      {
+        "comment": "",
+        "key": "已复制全文",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 1075
+        }
+      },
+      {
+        "comment": "",
+        "key": "复制快讯内容",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 1075
+        }
+      },
+      {
+        "comment": "",
+        "key": "关闭",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1089
+        }
+      },
+      {
+        "comment": "",
+        "key": "已自选",
+        "location": {
+          "startingColumn": 49,
+          "startingLine": 1151
+        }
+      },
+      {
+        "comment": "",
+        "key": "加入自选",
+        "location": {
+          "startingColumn": 63,
+          "startingLine": 1151
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,60 @@
+{
+  "source": "/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/GlobalMarketView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "全球核心市场"
+      },
+      {
+        "comment": "",
+        "key": "美股盘前盘后 · 芯片与存储龙头 · 韩国股市"
+      },
+      {
+        "comment": "",
+        "key": "刷新行情"
+      },
+      {
+        "comment": "",
+        "key": "美股核心行业板块表现（含常规与盘前盘后涨势）"
+      },
+      {
+        "comment": "",
+        "key": "美股核心龙头股票（常规价 & 盘前盘后实时撮合）"
+      },
+      {
+        "comment": "",
+        "key": "共 %lld 只"
+      },
+      {
+        "comment": "",
+        "key": "韩国股市核心龙头股 (KRX Leaders · 含三星与SK海力士)"
+      },
+      {
+        "comment": "",
+        "key": "领涨/核心: %@"
+      },
+      {
+        "comment": "",
+        "key": "盘前/后"
+      },
+      {
+        "comment": "",
+        "key": "盘前/盘后实时"
+      },
+      {
+        "comment": "",
+        "key": "· 市值: %@"
+      },
+      {
+        "comment": "",
+        "key": "当前报价: $%@"
+      },
+      {
+        "comment": "",
+        "key": "盘前/盘后实时撮合"
+      }
+    ]
+  },
+  "version": 1
+}

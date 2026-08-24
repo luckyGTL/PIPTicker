@@ -1,0 +1,96 @@
+{
+  "source": "/Users/du/Desktop/PiPTicker/PiPTicker/Views/MacFloatingStockView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "● A股 %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "悬浮窗偏好设置",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 249
+        }
+      },
+      {
+        "comment": "",
+        "key": "靠边自动隐藏",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 265
+        }
+      },
+      {
+        "comment": "",
+        "key": "小窗靠边后自动漂出，鼠标移入即时展开",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 268
+        }
+      },
+      {
+        "comment": "",
+        "key": "收起等待:",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 277
+        }
+      },
+      {
+        "comment": "",
+        "key": "0.5s",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 283
+        }
+      },
+      {
+        "comment": "",
+        "key": "%llds",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 283
+        }
+      },
+      {
+        "comment": "",
+        "key": "数量:",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 298
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 303
+        }
+      },
+      {
+        "comment": "",
+        "key": "透明度:",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 316
+        }
+      },
+      {
+        "comment": "",
+        "key": "红涨绿跌配色",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 327
+        }
+      }
+    ]
+  },
+  "version": 1
+}

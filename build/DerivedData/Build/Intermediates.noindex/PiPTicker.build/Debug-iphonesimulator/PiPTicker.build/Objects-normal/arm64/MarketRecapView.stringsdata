@@ -1,0 +1,220 @@
+{
+  "source": "/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/MarketRecapView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "A股全景复盘"
+      },
+      {
+        "comment": "",
+        "key": "板块资金 · 个股资金榜 · 板块成分股 · 情绪周期"
+      },
+      {
+        "comment": "",
+        "key": "刷新复盘"
+      },
+      {
+        "comment": "",
+        "key": "%lld 家"
+      },
+      {
+        "comment": "",
+        "key": "涨停封板"
+      },
+      {
+        "comment": "",
+        "key": "跌停地板"
+      },
+      {
+        "comment": "",
+        "key": "%lld 连板"
+      },
+      {
+        "comment": "",
+        "key": "连板高度"
+      },
+      {
+        "comment": "",
+        "key": "短线情绪连板高度: %lld 板"
+      },
+      {
+        "comment": "",
+        "key": ""
+      },
+      {
+        "comment": "",
+        "key": "行业板块"
+      },
+      {
+        "comment": "",
+        "key": "概念题材"
+      },
+      {
+        "comment": "",
+        "key": "🔥 净流入"
+      },
+      {
+        "comment": "",
+        "key": "❄️ 净流出"
+      },
+      {
+        "comment": "",
+        "key": "资金榜分类:"
+      },
+      {
+        "comment": "",
+        "key": "🔥 净流入前50"
+      },
+      {
+        "comment": "",
+        "key": "❄️ 净流出前50"
+      },
+      {
+        "comment": "",
+        "key": "短线情绪池:"
+      },
+      {
+        "comment": "",
+        "key": "🔴 涨停封板池 (%lld)"
+      },
+      {
+        "comment": "",
+        "key": "🟢 跌停地板池 (%lld)"
+      },
+      {
+        "comment": "",
+        "key": "💡 点击任意板块或概念，可查看该板块全部成分股、涨跌幅与主力资金流入明细"
+      },
+      {
+        "comment": "",
+        "key": "暂无板块资金数据"
+      },
+      {
+        "comment": "",
+        "key": "%@%@主力资金%@前 30 强"
+      },
+      {
+        "comment": "",
+        "key": "共 %lld 个板块"
+      },
+      {
+        "comment": "",
+        "key": "%lld"
+      },
+      {
+        "comment": "",
+        "key": "流入: %@ · 流出: %@"
+      },
+      {
+        "comment": "",
+        "key": "🔴 %lld涨停"
+      },
+      {
+        "comment": "",
+        "key": "🟢 %lld跌停"
+      },
+      {
+        "comment": "",
+        "key": "共 %lld 只"
+      },
+      {
+        "comment": "",
+        "key": "%@个股主力资金%@前 50 强"
+      },
+      {
+        "comment": "",
+        "key": "正在拉取全市场个股主力资金数据..."
+      },
+      {
+        "comment": "",
+        "key": "成交 %@"
+      },
+      {
+        "comment": "",
+        "key": "已选"
+      },
+      {
+        "comment": "",
+        "key": "自选"
+      },
+      {
+        "comment": "",
+        "key": "暂无涨停股票数据"
+      },
+      {
+        "comment": "",
+        "key": "今日涨停封板池 · 共 %lld 只"
+      },
+      {
+        "comment": "",
+        "key": "最高 %lld 连板"
+      },
+      {
+        "comment": "",
+        "key": "今日无跌停个股"
+      },
+      {
+        "comment": "",
+        "key": "今日跌停地板池 · 共 %lld 只"
+      },
+      {
+        "comment": "",
+        "key": "%lld连板"
+      },
+      {
+        "comment": "",
+        "key": "所属: %@"
+      },
+      {
+        "comment": "",
+        "key": "成交: %@"
+      },
+      {
+        "comment": "",
+        "key": "全板块成分股实时报价、涨跌幅与主力净流入资金"
+      },
+      {
+        "comment": "",
+        "key": "【%@】成分股明细"
+      },
+      {
+        "comment": "",
+        "key": "板块平均涨幅"
+      },
+      {
+        "comment": "",
+        "key": "%@主力净流入"
+      },
+      {
+        "comment": "",
+        "key": "封板/地板统计"
+      },
+      {
+        "comment": "",
+        "key": "成分股排序:"
+      },
+      {
+        "comment": "",
+        "key": "按涨跌幅"
+      },
+      {
+        "comment": "",
+        "key": "按主力流入"
+      },
+      {
+        "comment": "",
+        "key": "按成交额"
+      },
+      {
+        "comment": "",
+        "key": "正在拉取【%@】全部成分股及主力资金..."
+      },
+      {
+        "comment": "",
+        "key": "暂未查询到该板块成分股明细"
+      }
+    ]
+  },
+  "version": 1
+}

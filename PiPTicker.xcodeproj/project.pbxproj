@@ -1,0 +1,436 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01010001 /* PiPTickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010001 /* PiPTickerApp.swift */; };
+		01010002 /* TickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010002 /* TickerData.swift */; };
+		01010003 /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010003 /* AudioSessionManager.swift */; };
+		01010005 /* PiPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010005 /* PiPManager.swift */; };
+		01010006 /* PiPTickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010006 /* PiPTickerViewController.swift */; };
+		01010007 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010007 /* ContentView.swift */; };
+		01010008 /* StockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010009 /* StockDataManager.swift */; };
+		01010010 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010010 /* NewsData.swift */; };
+		01010011 /* StockSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010011 /* StockSearchService.swift */; };
+		01010012 /* FinancialNewsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010012 /* FinancialNewsManager.swift */; };
+		01010013 /* FinancialNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010013 /* FinancialNewsView.swift */; };
+		01010014 /* MarketRecapData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010014 /* MarketRecapData.swift */; };
+		01010015 /* GlobalMarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010015 /* GlobalMarketData.swift */; };
+		01010016 /* MarketRecapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010016 /* MarketRecapManager.swift */; };
+		01010017 /* GlobalMarketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010017 /* GlobalMarketManager.swift */; };
+		01010018 /* MarketRecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010018 /* MarketRecapView.swift */; };
+		01010019 /* GlobalMarketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010019 /* GlobalMarketView.swift */; };
+		01010020 /* StrengthRankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010020 /* StrengthRankManager.swift */; };
+		01010021 /* StrengthRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010021 /* StrengthRankView.swift */; };
+		7BF90C7B30381D8D0097AB7A /* MacFloatingWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */; };
+		7BF90C7D30381D9D0097AB7A /* MacFloatingStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00010001 /* PiPTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiPTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		02010001 /* PiPTickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiPTickerApp.swift; sourceTree = "<group>"; };
+		02010002 /* TickerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerData.swift; sourceTree = "<group>"; };
+		02010003 /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
+		02010005 /* PiPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiPManager.swift; sourceTree = "<group>"; };
+		02010006 /* PiPTickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiPTickerViewController.swift; sourceTree = "<group>"; };
+		02010007 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		02010008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02010009 /* StockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDataManager.swift; sourceTree = "<group>"; };
+		02010010 /* NewsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
+		02010011 /* StockSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchService.swift; sourceTree = "<group>"; };
+		02010012 /* FinancialNewsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialNewsManager.swift; sourceTree = "<group>"; };
+		02010013 /* FinancialNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialNewsView.swift; sourceTree = "<group>"; };
+		02010014 /* MarketRecapData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketRecapData.swift; sourceTree = "<group>"; };
+		02010015 /* GlobalMarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMarketData.swift; sourceTree = "<group>"; };
+		02010016 /* MarketRecapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketRecapManager.swift; sourceTree = "<group>"; };
+		02010017 /* GlobalMarketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMarketManager.swift; sourceTree = "<group>"; };
+		02010018 /* MarketRecapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketRecapView.swift; sourceTree = "<group>"; };
+		02010019 /* GlobalMarketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMarketView.swift; sourceTree = "<group>"; };
+		02010020 /* StrengthRankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthRankManager.swift; sourceTree = "<group>"; };
+		02010021 /* StrengthRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthRankView.swift; sourceTree = "<group>"; };
+		7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingWindowManager.swift; sourceTree = "<group>"; };
+		7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingStockView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		03010001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04010001 = {
+			isa = PBXGroup;
+			children = (
+				04010002 /* PiPTicker */,
+				04010007 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		04010002 /* PiPTicker */ = {
+			isa = PBXGroup;
+			children = (
+				04010003 /* App */,
+				04010004 /* Models */,
+				04010005 /* Services */,
+				04010006 /* Views */,
+			);
+			path = PiPTicker;
+			sourceTree = "<group>";
+		};
+		04010003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				02010001 /* PiPTickerApp.swift */,
+				02010008 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		04010004 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				02010002 /* TickerData.swift */,
+				02010010 /* NewsData.swift */,
+				02010014 /* MarketRecapData.swift */,
+				02010015 /* GlobalMarketData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04010005 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				02010003 /* AudioSessionManager.swift */,
+				02010009 /* StockDataManager.swift */,
+				02010005 /* PiPManager.swift */,
+				7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */,
+				02010011 /* StockSearchService.swift */,
+				02010012 /* FinancialNewsManager.swift */,
+				02010016 /* MarketRecapManager.swift */,
+				02010020 /* StrengthRankManager.swift */,
+				02010017 /* GlobalMarketManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		04010006 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				02010007 /* ContentView.swift */,
+				02010006 /* PiPTickerViewController.swift */,
+				7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */,
+				02010013 /* FinancialNewsView.swift */,
+				02010018 /* MarketRecapView.swift */,
+				02010021 /* StrengthRankView.swift */,
+				02010019 /* GlobalMarketView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04010007 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00010001 /* PiPTicker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		05010001 /* PiPTicker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06010001 /* Build configuration list for PBXNativeTarget "PiPTicker" */;
+			buildPhases = (
+				07010001 /* Sources */,
+				03010001 /* Frameworks */,
+				08010001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PiPTicker;
+			productName = PiPTicker;
+			productReference = 00010001 /* PiPTicker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		09010001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					05010001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 06010002 /* Build configuration list for PBXProject "PiPTicker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = zh_CN;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				zh_CN,
+				Base,
+			);
+			mainGroup = 04010001;
+			productRefGroup = 04010007 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				05010001 /* PiPTicker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		08010001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		07010001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01010001 /* PiPTickerApp.swift in Sources */,
+				7BF90C7D30381D9D0097AB7A /* MacFloatingStockView.swift in Sources */,
+				7BF90C7B30381D8D0097AB7A /* MacFloatingWindowManager.swift in Sources */,
+				01010002 /* TickerData.swift in Sources */,
+				01010003 /* AudioSessionManager.swift in Sources */,
+				01010008 /* StockDataManager.swift in Sources */,
+				01010005 /* PiPManager.swift in Sources */,
+				01010006 /* PiPTickerViewController.swift in Sources */,
+				01010007 /* ContentView.swift in Sources */,
+				01010010 /* NewsData.swift in Sources */,
+				01010011 /* StockSearchService.swift in Sources */,
+				01010012 /* FinancialNewsManager.swift in Sources */,
+				01010013 /* FinancialNewsView.swift in Sources */,
+				01010014 /* MarketRecapData.swift in Sources */,
+				01010015 /* GlobalMarketData.swift in Sources */,
+				01010016 /* MarketRecapManager.swift in Sources */,
+				01010017 /* GlobalMarketManager.swift in Sources */,
+				01010018 /* MarketRecapView.swift in Sources */,
+				01010020 /* StrengthRankManager.swift in Sources */,
+				01010021 /* StrengthRankView.swift in Sources */,
+				01010019 /* GlobalMarketView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		10010001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDEFINED_VARIABLES = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		10010002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDEFINED_VARIABLES = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		10010003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QN3V39XZ6K;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PiPTicker/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stnts.PiPTicker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		10010004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QN3V39XZ6K;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PiPTicker/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stnts.PiPTicker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		06010001 /* Build configuration list for PBXNativeTarget "PiPTicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				10010003 /* Debug */,
+				10010004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06010002 /* Build configuration list for PBXProject "PiPTicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				10010001 /* Debug */,
+				10010002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 09010001 /* Project object */;
+}

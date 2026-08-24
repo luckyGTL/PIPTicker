@@ -1,0 +1,18 @@
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Services/MacFloatingWindowManager.swift":
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingWindowManager.o"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingWindowManager.swiftconstvalues"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingWindowManager.swiftdeps"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingWindowManager.dia"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingWindowManager.d"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/MacFloatingStockView.swift":
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingStockView.o"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingStockView.d"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingStockView.swiftdeps"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingStockView.swiftconstvalues"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/MacFloatingStockView.dia"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/App/PiPTickerApp.swift":
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/PiPTickerApp.swiftdeps"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/PiPTickerApp.swiftconstvalues"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/PiPTickerApp.dia"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/PiPTickerApp.o"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug-iphonesimulator/PiPTicker.build/Objects-normal/arm64/PiPTickerApp.d"

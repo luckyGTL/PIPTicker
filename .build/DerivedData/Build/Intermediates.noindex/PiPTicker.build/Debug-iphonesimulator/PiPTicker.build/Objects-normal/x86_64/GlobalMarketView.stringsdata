@@ -1,0 +1,112 @@
+{
+  "source": "/Users/du/Desktop/PiPTicker/PiPTicker/Views/GlobalMarketView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "全球核心市场",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "美股盘前盘后 · 芯片与存储龙头 · 韩国股市",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "刷新行情",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "美股核心行业板块表现（含常规与盘前盘后涨势）",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 128
+        }
+      },
+      {
+        "comment": "",
+        "key": "美股核心龙头股票（常规价 & 盘前盘后实时撮合）",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 149
+        }
+      },
+      {
+        "comment": "",
+        "key": "共 %lld 只",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 152
+        }
+      },
+      {
+        "comment": "",
+        "key": "韩国股市核心龙头股 (KRX Leaders · 含三星与SK海力士)",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 191
+        }
+      },
+      {
+        "comment": "",
+        "key": "领涨/核心: %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 246
+        }
+      },
+      {
+        "comment": "",
+        "key": "盘前/后",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 260
+        }
+      },
+      {
+        "comment": "",
+        "key": "盘前/盘后实时",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 295
+        }
+      },
+      {
+        "comment": "",
+        "key": "· 市值: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 312
+        }
+      },
+      {
+        "comment": "",
+        "key": "当前报价: $%@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 363
+        }
+      },
+      {
+        "comment": "",
+        "key": "盘前/盘后实时撮合",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 358
+        }
+      }
+    ]
+  },
+  "version": 1
+}

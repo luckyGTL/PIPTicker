@@ -1,0 +1,23 @@
+{
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Services/PiPManager.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.dia",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.swiftdeps"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/ContentView.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.dia",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.swiftdeps"
+  },
+  "/Users/du/Desktop/PiPTicker/PiPTicker/Views/PiPTickerViewController.swift" : {
+    "const-values" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.swiftconstvalues",
+    "dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.d",
+    "diagnostics" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.dia",
+    "object" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.o",
+    "swift-dependencies" : "/Users/du/Desktop/PiPTicker/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.swiftdeps"
+  }
+}

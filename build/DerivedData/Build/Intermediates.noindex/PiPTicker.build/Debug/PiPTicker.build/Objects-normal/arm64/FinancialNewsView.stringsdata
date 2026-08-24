@@ -1,0 +1,152 @@
+{
+  "source": "/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/FinancialNewsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "搜索财经要闻、个股、英伟达、海力士、巴菲特、推特大V..."
+      },
+      {
+        "comment": "",
+        "key": "%lld秒"
+      },
+      {
+        "comment": "",
+        "key": "%lld分"
+      },
+      {
+        "comment": "",
+        "key": "抓取"
+      },
+      {
+        "comment": "",
+        "key": "抓取间隔:"
+      },
+      {
+        "comment": "",
+        "key": "自动实时抓取"
+      },
+      {
+        "comment": "",
+        "key": "自选与概念弹窗推送"
+      },
+      {
+        "comment": "",
+        "key": "开启系统推送权限"
+      },
+      {
+        "comment": "",
+        "key": "大V聚焦:"
+      },
+      {
+        "comment": "",
+        "key": "最近抓取: %@"
+      },
+      {
+        "comment": "",
+        "key": "全网 7x24 实时电报 · 共 %lld 条快讯"
+      },
+      {
+        "comment": "",
+        "key": "正在加载更早历史快讯..."
+      },
+      {
+        "comment": "",
+        "key": "⬇️ 下滑 / 点击加载更多历史快讯"
+      },
+      {
+        "comment": "",
+        "key": "已加载全部近期资讯"
+      },
+      {
+        "comment": "",
+        "key": "⬆️ 发现 %lld 条新快讯 · 点击立即加载并回顶部"
+      },
+      {
+        "comment": "",
+        "key": "回顶部"
+      },
+      {
+        "comment": "",
+        "key": "%@ (%@)"
+      },
+      {
+        "comment": "",
+        "key": "重磅突发"
+      },
+      {
+        "comment": "",
+        "key": "%@: %@"
+      },
+      {
+        "comment": "",
+        "key": "AI: %@"
+      },
+      {
+        "comment": "",
+        "key": "+自选"
+      },
+      {
+        "comment": "",
+        "key": "自选"
+      },
+      {
+        "comment": "",
+        "key": "暂无匹配的财经资讯"
+      },
+      {
+        "comment": "",
+        "key": "重置筛选并刷新"
+      },
+      {
+        "comment": "",
+        "key": "资讯详情"
+      },
+      {
+        "comment": "",
+        "key": "🚨 全网重磅突发"
+      },
+      {
+        "comment": "",
+        "key": "(%@)"
+      },
+      {
+        "comment": "",
+        "key": "AI研判: %@"
+      },
+      {
+        "comment": "",
+        "key": "关联股票与自选板块"
+      },
+      {
+        "comment": "",
+        "key": "%@: %@ (%@)"
+      },
+      {
+        "comment": "",
+        "key": "东财板块: %@"
+      },
+      {
+        "comment": "",
+        "key": "已复制全文"
+      },
+      {
+        "comment": "",
+        "key": "复制快讯内容"
+      },
+      {
+        "comment": "",
+        "key": "关闭"
+      },
+      {
+        "comment": "",
+        "key": "已自选"
+      },
+      {
+        "comment": "",
+        "key": "加入自选"
+      }
+    ]
+  },
+  "version": 1
+}

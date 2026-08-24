@@ -1,0 +1,18 @@
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Services/PiPManager.swift":
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.d"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.swiftconstvalues"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.swiftdeps"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.o"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPManager.dia"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/PiPTickerViewController.swift":
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.swiftconstvalues"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.d"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.swiftdeps"
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.dia"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/PiPTickerViewController.o"
+"/Users/liuyiwei/Downloads/PiPTicker 2/PiPTicker/Views/ContentView.swift":
+  diagnostics: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.dia"
+  const-values: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.swiftconstvalues"
+  swift-dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.swiftdeps"
+  object: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.o"
+  dependencies: "/Users/liuyiwei/Downloads/PiPTicker 2/build/DerivedData/Build/Intermediates.noindex/PiPTicker.build/Debug/PiPTicker.build/Objects-normal/x86_64/ContentView.d"
