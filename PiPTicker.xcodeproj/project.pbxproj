@@ -14,6 +14,9 @@
 		01010006 /* PiPTickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010006 /* PiPTickerViewController.swift */; };
 		01010007 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010007 /* ContentView.swift */; };
 		01010008 /* StockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010009 /* StockDataManager.swift */; };
+
+		7BF90C7B30381D8D0097AB7A /* MacFloatingWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */; };
+		7BF90C7D30381D9D0097AB7A /* MacFloatingStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */; };
 		01010010 /* NewsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010010 /* NewsData.swift */; };
 		01010011 /* StockSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010011 /* StockSearchService.swift */; };
 		01010012 /* FinancialNewsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010012 /* FinancialNewsManager.swift */; };
@@ -27,8 +30,6 @@
 		01010020 /* StrengthRankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010020 /* StrengthRankManager.swift */; };
 		01010021 /* StrengthRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02010021 /* StrengthRankView.swift */; };
 		01010022 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02010022 /* Assets.xcassets */; };
-		7BF90C7B30381D8D0097AB7A /* MacFloatingWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */; };
-		7BF90C7D30381D9D0097AB7A /* MacFloatingStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,9 @@
 		02010007 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		02010008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02010009 /* StockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDataManager.swift; sourceTree = "<group>"; };
+
+		7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingWindowManager.swift; sourceTree = "<group>"; };
+		7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingStockView.swift; sourceTree = "<group>"; };
 		02010010 /* NewsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsData.swift; sourceTree = "<group>"; };
 		02010011 /* StockSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchService.swift; sourceTree = "<group>"; };
 		02010012 /* FinancialNewsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialNewsManager.swift; sourceTree = "<group>"; };
@@ -54,8 +58,6 @@
 		02010020 /* StrengthRankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthRankManager.swift; sourceTree = "<group>"; };
 		02010021 /* StrengthRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthRankView.swift; sourceTree = "<group>"; };
 		02010022 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7BF90C7A30381D8D0097AB7A /* MacFloatingWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingWindowManager.swift; sourceTree = "<group>"; };
-		7BF90C7C30381D9D0097AB7A /* MacFloatingStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacFloatingStockView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,7 +368,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QN3V39XZ6K;
+				DEVELOPMENT_TEAM = 4PA3TVJJDP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PiPTicker/App/Info.plist;
@@ -393,7 +395,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QN3V39XZ6K;
+				DEVELOPMENT_TEAM = 4PA3TVJJDP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PiPTicker/App/Info.plist;

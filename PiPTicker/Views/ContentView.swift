@@ -44,7 +44,6 @@ public enum MacViewMode: String, CaseIterable, Identifiable {
     case quotes = "行情看板"
     case news = "7x24快讯"
     case recap = "A股复盘"
-    case strength = "强度排名"
     case global = "全球市场"
     case dashboard = "全景分栏"
     
@@ -55,7 +54,6 @@ public enum MacViewMode: String, CaseIterable, Identifiable {
         case .quotes: return "chart.xyaxis.line"
         case .news: return "bolt.fill"
         case .recap: return "chart.pie.fill"
-        case .strength: return "chart.bar.xaxis"
         case .global: return "globe.americas.fill"
         case .dashboard: return "rectangle.split.3x1"
         }
@@ -108,8 +106,6 @@ struct ContentView: View {
                         FinancialNewsView()
                     case .recap:
                         MarketRecapView()
-                    case .strength:
-                        StrengthRankView()
                     case .global:
                         GlobalMarketView()
                     case .dashboard:
@@ -130,7 +126,6 @@ struct ContentView: View {
             stockData.start()
             newsManager.start()
             MarketRecapManager.shared.start()
-            StrengthRankManager.shared.start()
             GlobalMarketManager.shared.start()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SwitchToNewsTabNotification"))) { _ in
@@ -223,19 +218,7 @@ struct ContentView: View {
                 }
                 .tag(2)
                 
-                // Tab 4: 强度排名 (净流入 / 涨速 Top20)
-                NavigationView {
-                    StrengthRankView()
-                        .navigationTitle("强度排名")
-                        .navigationBarTitleDisplayMode(.inline)
-                }
-                .navigationViewStyle(StackNavigationViewStyle())
-                .tabItem {
-                    Label("强度排名", systemImage: "chart.bar.xaxis")
-                }
-                .tag(3)
-                
-                // Tab 5: 全球核心市场 (美股盘前盘后/板块 + 韩国股市)
+                // Tab 4: 全球核心市场 (美股盘前盘后/板块 + 韩国股市)
                 NavigationView {
                     GlobalMarketView()
                         .navigationTitle("全球核心市场")
@@ -245,7 +228,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("全球市场", systemImage: "globe.americas.fill")
                 }
-                .tag(4)
+                .tag(3)
             }
             
             // 自选股要闻突发提醒弹窗 (iOS 全局浮层)
@@ -265,7 +248,6 @@ struct ContentView: View {
             stockData.start()
             newsManager.start()
             MarketRecapManager.shared.start()
-            StrengthRankManager.shared.start()
             GlobalMarketManager.shared.start()
             #if canImport(UIKit)
             pipManager.tickerViewController.displayCount = pipStockCount
@@ -328,9 +310,6 @@ struct ContentView: View {
             Button(action: {
                 stockData.fetchQuotes()
                 newsManager.fetchAllNewsChannels()
-                MarketRecapManager.shared.fetchAllRecapData()
-                StrengthRankManager.shared.fetchRankings()
-                GlobalMarketManager.shared.fetchAllGlobalQuotes()
             }) {
                 HStack(spacing: 5) {
                     Image(systemName: "arrow.clockwise")

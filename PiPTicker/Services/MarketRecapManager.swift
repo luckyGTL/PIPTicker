@@ -1,58 +1,6 @@
 import Foundation
 import Combine
 
-/// 资金流向统计时间周期
-public enum FlowTimeRange: String, CaseIterable, Identifiable {
-    case today = "今日"
-    case yesterday = "昨日"
-    case threeDays = "近3日"
-    case fiveDays = "近5日"
-    case sevenDays = "近7日"
-    
-    public var id: String { rawValue }
-    
-    public var multiplier: Double {
-        switch self {
-        case .today: return 1.0
-        case .yesterday: return 0.88
-        case .threeDays: return 2.75
-        case .fiveDays: return 4.52
-        case .sevenDays: return 6.30
-        }
-    }
-}
-
-/// 个股主力资金流向条目模型
-public struct StockFlowItem: Identifiable, Equatable {
-    public var id: String { symbol }
-    public let symbol: String
-    public let name: String
-    public let currentPrice: Double
-    public let changePercent: Double
-    public let netInflow: Double // 净流入金额 (元)
-    public let mainInflow: Double // 超大单+大单净额
-    public let turnover: Double // 总成交额
-    public let timeRange: FlowTimeRange
-    
-    public var formattedNetInflow: String {
-        let absVal = abs(netInflow)
-        let sign = netInflow >= 0 ? "+" : "-"
-        if absVal >= 100_000_000 {
-            return String(format: "%@%.2f亿", sign, absVal / 100_000_000.0)
-        } else {
-            return String(format: "%@%.1f万", sign, absVal / 10_000.0)
-        }
-    }
-    
-    public var formattedTurnover: String {
-        if turnover >= 100_000_000 {
-            return String(format: "%.2f亿", turnover / 100_000_000.0)
-        } else {
-            return String(format: "%.1f万", turnover / 10_000.0)
-        }
-    }
-}
-
 /// 板块内成分股数据条目模型
 public struct SectorStockItem: Identifiable, Equatable {
     public var id: String { symbol }
@@ -82,11 +30,11 @@ public struct SectorStockItem: Identifiable, Equatable {
     }
 }
 
-/// A股全景复盘数据与统计调度管理中心（板块资金流、个股资金流向榜、板块成分股钻取、涨跌停池）
+/// A股全景复盘数据与统计调度管理中心（板块资金流、个股资金流向榜、板块成分股钻取、资金增速爆发榜、涨跌停池）
 public final class MarketRecapManager: ObservableObject {
     public static let shared = MarketRecapManager()
     
-    // 行业板块资金流向列表（今日、昨日、3日、5日、7日）
+    // 行业板块资金流向列表（今日、昨日、3日、5日、7日、10日、20日）
     @Published public var industrySectorFlows: [SectorFlowItem] = []
     
     // 概念题材资金流向列表
@@ -97,6 +45,19 @@ public final class MarketRecapManager: ObservableObject {
     
     // 个股主力资金净流出榜（Top 50）
     @Published public var topStockOutflows: [StockFlowItem] = []
+    
+    // ⚡️ 资金增速/爆发榜（三维细分：个股、行业、概念 × 流入/流出）
+    @Published public var stockInflowSpeedRank: [StockFlowItem] = []
+    @Published public var stockOutflowSpeedRank: [StockFlowItem] = []
+    @Published public var industryInflowSpeedRank: [SectorFlowItem] = []
+    @Published public var industryOutflowSpeedRank: [SectorFlowItem] = []
+    @Published public var conceptInflowSpeedRank: [SectorFlowItem] = []
+    @Published public var conceptOutflowSpeedRank: [SectorFlowItem] = []
+    
+    // 兼容历史属性
+    public var topStockSpeedRank: [StockFlowItem] {
+        return stockInflowSpeedRank
+    }
     
     // 涨停封板梯队列表（按连板数与涨幅降序）
     @Published public var limitUpStocks: [LimitStockItem] = []
@@ -119,8 +80,10 @@ public final class MarketRecapManager: ObservableObject {
     
     private init() {
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 6.0
+        config.timeoutIntervalForRequest = 15.0
+        config.timeoutIntervalForResource = 25.0
         self.urlSession = URLSession(configuration: config)
+        loadRecapDataFromCache()
     }
     
     public func start() {
@@ -137,10 +100,75 @@ public final class MarketRecapManager: ObservableObject {
         refreshTimer?.invalidate()
         refreshTimer = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-            // A股收盘后不再进行自动定时轮询刷新（手动点击刷新依然生效）
+            // A股交易时间自动轮询
             guard StockDataManager.shared.isMarketTradingHours else { return }
             self.fetchAllRecapData()
         }
+    }
+    
+    // MARK: - 本地持久化缓存（盘后与离线秒开，彻底杜绝白屏/空数据）
+    
+    private struct RecapCacheStore: Codable {
+        let industrySectorFlows: [SectorFlowItem]
+        let conceptSectorFlows: [SectorFlowItem]
+        let topStockInflows: [StockFlowItem]
+        let topStockOutflows: [StockFlowItem]
+        let stockInflowSpeedRank: [StockFlowItem]
+        let stockOutflowSpeedRank: [StockFlowItem]
+        let industryInflowSpeedRank: [SectorFlowItem]
+        let industryOutflowSpeedRank: [SectorFlowItem]
+        let conceptInflowSpeedRank: [SectorFlowItem]
+        let conceptOutflowSpeedRank: [SectorFlowItem]
+        let limitUpStocks: [LimitStockItem]
+        let limitDownStocks: [LimitStockItem]
+        let sentimentSummary: MarketSentimentSummary
+        let cachedTime: Date
+    }
+    
+    private func saveRecapDataToCache() {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+            let store = RecapCacheStore(
+                industrySectorFlows: self.industrySectorFlows,
+                conceptSectorFlows: self.conceptSectorFlows,
+                topStockInflows: self.topStockInflows,
+                topStockOutflows: self.topStockOutflows,
+                stockInflowSpeedRank: self.stockInflowSpeedRank,
+                stockOutflowSpeedRank: self.stockOutflowSpeedRank,
+                industryInflowSpeedRank: self.industryInflowSpeedRank,
+                industryOutflowSpeedRank: self.industryOutflowSpeedRank,
+                conceptInflowSpeedRank: self.conceptInflowSpeedRank,
+                conceptOutflowSpeedRank: self.conceptOutflowSpeedRank,
+                limitUpStocks: self.limitUpStocks,
+                limitDownStocks: self.limitDownStocks,
+                sentimentSummary: self.sentimentSummary,
+                cachedTime: self.lastUpdated
+            )
+            if let data = try? JSONEncoder().encode(store) {
+                UserDefaults.standard.set(data, forKey: "market_recap_cache_v3")
+            }
+        }
+    }
+    
+    private func loadRecapDataFromCache() {
+        guard let data = UserDefaults.standard.data(forKey: "market_recap_cache_v3"),
+              let store = try? JSONDecoder().decode(RecapCacheStore.self, from: data) else {
+            return
+        }
+        self.industrySectorFlows = store.industrySectorFlows
+        self.conceptSectorFlows = store.conceptSectorFlows
+        self.topStockInflows = store.topStockInflows
+        self.topStockOutflows = store.topStockOutflows
+        self.stockInflowSpeedRank = store.stockInflowSpeedRank
+        self.stockOutflowSpeedRank = store.stockOutflowSpeedRank
+        self.industryInflowSpeedRank = store.industryInflowSpeedRank
+        self.industryOutflowSpeedRank = store.industryOutflowSpeedRank
+        self.conceptInflowSpeedRank = store.conceptInflowSpeedRank
+        self.conceptOutflowSpeedRank = store.conceptOutflowSpeedRank
+        self.limitUpStocks = store.limitUpStocks
+        self.limitDownStocks = store.limitDownStocks
+        self.sentimentSummary = store.sentimentSummary
+        self.lastUpdated = store.cachedTime
     }
     
     // MARK: - 综合抓取总调度
@@ -156,6 +184,13 @@ public final class MarketRecapManager: ObservableObject {
         var rawConceptSectors: [SectorFlowItem] = []
         var stockInflows: [StockFlowItem] = []
         var stockOutflows: [StockFlowItem] = []
+        
+        var stockInflowSpeeds: [StockFlowItem] = []
+        var stockOutflowSpeeds: [StockFlowItem] = []
+        var indInflowSpeeds: [SectorFlowItem] = []
+        var indOutflowSpeeds: [SectorFlowItem] = []
+        var conInflowSpeeds: [SectorFlowItem] = []
+        var conOutflowSpeeds: [SectorFlowItem] = []
         
         // 1. 抓取真实全市场涨停封板池
         dispatchGroup.enter()
@@ -199,29 +234,174 @@ public final class MarketRecapManager: ObservableObject {
             dispatchGroup.leave()
         }
         
+        // 7. 抓取个股流入增速 / 抢筹榜
+        dispatchGroup.enter()
+        fetchStockSpeedRank(isInflow: true) { items in
+            stockInflowSpeeds = items
+            dispatchGroup.leave()
+        }
+        
+        // 8. 抓取个股流出增速 / 抛压榜
+        dispatchGroup.enter()
+        fetchStockSpeedRank(isInflow: false) { items in
+            stockOutflowSpeeds = items
+            dispatchGroup.leave()
+        }
+        
+        // 9. 抓取行业板块流入增速榜
+        dispatchGroup.enter()
+        fetchSectorSpeedRank(fenlei: 0, isInflow: true) { items in
+            indInflowSpeeds = items
+            dispatchGroup.leave()
+        }
+        
+        // 10. 抓取行业板块流出增速榜
+        dispatchGroup.enter()
+        fetchSectorSpeedRank(fenlei: 0, isInflow: false) { items in
+            indOutflowSpeeds = items
+            dispatchGroup.leave()
+        }
+        
+        // 11. 抓取概念题材流入增速榜
+        dispatchGroup.enter()
+        fetchSectorSpeedRank(fenlei: 1, isInflow: true) { items in
+            conInflowSpeeds = items
+            dispatchGroup.leave()
+        }
+        
+        // 12. 抓取概念题材流出增速榜
+        dispatchGroup.enter()
+        fetchSectorSpeedRank(fenlei: 1, isInflow: false) { items in
+            conOutflowSpeeds = items
+            dispatchGroup.leave()
+        }
+        
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            self.limitUpStocks = upItems
-            self.limitDownStocks = downItems
-            self.topStockInflows = stockInflows
-            self.topStockOutflows = stockOutflows
+            // 防空保护：仅在有最新数据时更新，避免接口偶发超时将有效盘后数据刷成空
+            if !upItems.isEmpty { self.limitUpStocks = upItems }
+            if !downItems.isEmpty { self.limitDownStocks = downItems }
+            if !stockInflows.isEmpty { self.topStockInflows = stockInflows }
+            if !stockOutflows.isEmpty { self.topStockOutflows = stockOutflows }
             
-            // 7. 计算每个板块/概念的涨跌停数量
-            self.industrySectorFlows = self.attachLimitCounts(sectors: rawIndustrySectors, limitUps: upItems, limitDowns: downItems)
-            self.conceptSectorFlows = self.attachLimitCounts(sectors: rawConceptSectors, limitUps: upItems, limitDowns: downItems)
+            if !stockInflowSpeeds.isEmpty { self.stockInflowSpeedRank = stockInflowSpeeds }
+            if !stockOutflowSpeeds.isEmpty { self.stockOutflowSpeedRank = stockOutflowSpeeds }
+            if !indInflowSpeeds.isEmpty { self.industryInflowSpeedRank = indInflowSpeeds }
+            if !indOutflowSpeeds.isEmpty { self.industryOutflowSpeedRank = indOutflowSpeeds }
+            if !conInflowSpeeds.isEmpty { self.conceptInflowSpeedRank = conInflowSpeeds }
+            if !conOutflowSpeeds.isEmpty { self.conceptOutflowSpeedRank = conOutflowSpeeds }
             
-            // 8. 更新全市场短线情绪概览
-            self.updateSentimentSummary(limitUps: upItems, limitDowns: downItems)
+            if !rawIndustrySectors.isEmpty {
+                self.industrySectorFlows = self.attachLimitCounts(sectors: rawIndustrySectors, limitUps: self.limitUpStocks, limitDowns: self.limitDownStocks)
+            }
+            if !rawConceptSectors.isEmpty {
+                self.conceptSectorFlows = self.attachLimitCounts(sectors: rawConceptSectors, limitUps: self.limitUpStocks, limitDowns: self.limitDownStocks)
+            }
+            
+            if !self.limitUpStocks.isEmpty || !self.limitDownStocks.isEmpty {
+                self.updateSentimentSummary(limitUps: self.limitUpStocks, limitDowns: self.limitDownStocks)
+            }
             
             self.isRefreshing = false
             self.lastUpdated = Date()
+            self.saveRecapDataToCache()
         }
     }
     
-    // MARK: - 个股主力资金流入 / 流出排行榜抓取
+    // MARK: - 个股主力资金流入 / 流出排行榜抓取（对接东方财富权威全市场真实 今日/5日/10日/20日 资金榜融合）
     
     public func fetchStockFlowRank(isInflow: Bool, completion: @escaping ([StockFlowItem]) -> Void) {
+        let sortOrder = isInflow ? "1" : "0"
+        let sortFids = ["f62", "f164", "f174", "f277"] // 今日主力净额、5日主力净额、10日主力净额、20日主力净额
+        let dispatchGroup = DispatchGroup()
+        var mergedDict: [String: StockFlowItem] = [:]
+        let lock = NSLock()
+        
+        for fid in sortFids {
+            dispatchGroup.enter()
+            let urlStr = "http://push2delay.eastmoney.com/api/qt/clist/get?pn=1&pz=60&po=\(sortOrder)&np=1&ut=bd1d9ddb04089700cf9c27f6f7426281&fltt=2&invt=2&fid=\(fid)&fs=m:0%2Bt:6,m:0%2Bt:80,m:1%2Bt:2,m:1%2Bt:23&fields=f12,f14,f2,f3,f62,f184,f164,f165,f109,f174,f175,f160,f277,f278,f262,f6"
+            
+            guard let url = URL(string: urlStr) else {
+                dispatchGroup.leave()
+                continue
+            }
+            
+            var request = URLRequest(url: url)
+            request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", forHTTPHeaderField: "User-Agent")
+            request.setValue("http://quote.eastmoney.com", forHTTPHeaderField: "Referer")
+            
+            urlSession.dataTask(with: request) { data, _, error in
+                defer { dispatchGroup.leave() }
+                guard let data = data, error == nil,
+                      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      let dataObj = json["data"] as? [String: Any],
+                      let diff = dataObj["diff"] as? [[String: Any]], !diff.isEmpty else {
+                    return
+                }
+                
+                var items: [StockFlowItem] = []
+                for dict in diff {
+                    guard let name = dict["f14"] as? String, !name.isEmpty else { continue }
+                    let symbol = dict["f12"] as? String ?? ""
+                    let price = dict["f2"] as? Double ?? 0.0
+                    let pct = dict["f3"] as? Double ?? 0.0
+                    let pct5 = dict["f109"] as? Double ?? pct
+                    let pct10 = dict["f160"] as? Double ?? pct5
+                    let pct20 = dict["f262"] as? Double ?? pct10
+                    
+                    let f62 = dict["f62"] as? Double ?? 0.0
+                    let f164 = dict["f164"] as? Double ?? 0.0
+                    let f174 = dict["f174"] as? Double ?? 0.0
+                    let f277 = dict["f277"] as? Double ?? 0.0
+                    
+                    let f184 = dict["f184"] as? Double ?? 0.0
+                    let f165 = dict["f165"] as? Double ?? 0.0
+                    let f175 = dict["f175"] as? Double ?? 0.0
+                    let turnover = dict["f6"] as? Double ?? 0.0
+                    
+                    let item = StockFlowItem(
+                        symbol: symbol,
+                        name: name,
+                        currentPrice: price,
+                        changePercent: pct,
+                        changePercent5D: pct5,
+                        changePercent10D: pct10,
+                        changePercent20D: pct20,
+                        netInflow: f62,
+                        netInflow5D: f164,
+                        netInflow10D: f174,
+                        netInflow20D: f277,
+                        mainInflow: f62,
+                        turnover: turnover,
+                        timeRange: .today,
+                        ratioAmount: f184 / 100.0,
+                        ratioAmount5D: f165 / 100.0,
+                        ratioAmount10D: f175 / 100.0
+                    )
+                    items.append(item)
+                }
+                
+                lock.lock()
+                for item in items {
+                    mergedDict[item.symbol] = item
+                }
+                lock.unlock()
+            }.resume()
+        }
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            let allMerged = Array(mergedDict.values)
+            if !allMerged.isEmpty {
+                completion(allMerged)
+            } else {
+                self.fetchStockFlowRankSinaFallback(isInflow: isInflow, completion: completion)
+            }
+        }
+    }
+    
+    private func fetchStockFlowRankSinaFallback(isInflow: Bool, completion: @escaping ([StockFlowItem]) -> Void) {
         let ascOrder = isInflow ? "0" : "1"
         let urlStr = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_ssggzj?page=1&num=50&sort=r0_net&asc=\(ascOrder)"
         guard let url = URL(string: urlStr) else {
@@ -258,6 +438,7 @@ public final class MarketRecapManager: ObservableObject {
                 let amount = Double(dict["amount"] as? String ?? "") ?? 0.0
                 let netamount = Double(dict["netamount"] as? String ?? "") ?? 0.0
                 let r0net = Double(dict["r0_net"] as? String ?? "") ?? netamount
+                let ratioAmount = Double(dict["ratioamount"] as? String ?? "") ?? 0.0
                 
                 let item = StockFlowItem(
                     symbol: symbol,
@@ -267,7 +448,8 @@ public final class MarketRecapManager: ObservableObject {
                     netInflow: r0net != 0 ? r0net : netamount,
                     mainInflow: r0net,
                     turnover: amount,
-                    timeRange: .today
+                    timeRange: .today,
+                    ratioAmount: ratioAmount
                 )
                 results.append(item)
             }
@@ -276,9 +458,186 @@ public final class MarketRecapManager: ObservableObject {
         }.resume()
     }
     
-    // MARK: - 板块成分股钻取与资金流抓取 (点击板块查看里面个股)
+    // MARK: - ⚡️ 资金增速/爆发榜抓取（个股流入/流出增速、行业流入/流出增速、概念流入/流出增速）
+    
+    public func fetchStockSpeedRank(isInflow: Bool, completion: @escaping ([StockFlowItem]) -> Void) {
+        let sortOrder = isInflow ? "1" : "0"
+        let urlStr = "http://push2delay.eastmoney.com/api/qt/clist/get?pn=1&pz=50&po=\(sortOrder)&np=1&ut=bd1d9ddb04089700cf9c27f6f7426281&fltt=2&invt=2&fid=f184&fs=m:0%2Bt:6,m:0%2Bt:80,m:1%2Bt:2,m:1%2Bt:23&fields=f12,f14,f2,f3,f62,f184,f164,f165,f109,f174,f175,f160,f6,f124"
+        
+        guard let url = URL(string: urlStr) else {
+            completion([])
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", forHTTPHeaderField: "User-Agent")
+        request.setValue("http://quote.eastmoney.com", forHTTPHeaderField: "Referer")
+        
+        urlSession.dataTask(with: request) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let dataObj = json["data"] as? [String: Any],
+                  let diff = dataObj["diff"] as? [[String: Any]], !diff.isEmpty else {
+                completion([])
+                return
+            }
+            
+            var results: [StockFlowItem] = []
+            for dict in diff {
+                guard let name = dict["f14"] as? String, !name.isEmpty else { continue }
+                let symbol = dict["f12"] as? String ?? ""
+                let price = dict["f2"] as? Double ?? 0.0
+                let pct = dict["f3"] as? Double ?? 0.0
+                let pct5 = dict["f109"] as? Double ?? pct
+                let pct10 = dict["f160"] as? Double ?? pct5
+                let turnover = dict["f6"] as? Double ?? 0.0
+                let netInflow = dict["f62"] as? Double ?? 0.0
+                let netInflow5 = dict["f164"] as? Double ?? 0.0
+                let netInflow10 = dict["f174"] as? Double ?? 0.0
+                let ratio = dict["f184"] as? Double ?? 0.0
+                let ratio5 = dict["f165"] as? Double ?? 0.0
+                let ratio10 = dict["f175"] as? Double ?? 0.0
+                
+                let item = StockFlowItem(
+                    symbol: symbol,
+                    name: name,
+                    currentPrice: price,
+                    changePercent: pct,
+                    changePercent5D: pct5,
+                    changePercent10D: pct10,
+                    changePercent20D: pct10,
+                    netInflow: netInflow,
+                    netInflow5D: netInflow5,
+                    netInflow10D: netInflow10,
+                    netInflow20D: netInflow10,
+                    mainInflow: netInflow,
+                    turnover: turnover,
+                    timeRange: .today,
+                    ratioAmount: ratio / 100.0,
+                    ratioAmount5D: ratio5 / 100.0,
+                    ratioAmount10D: ratio10 / 100.0
+                )
+                results.append(item)
+            }
+            completion(results)
+        }.resume()
+    }
+    
+    public func fetchSectorSpeedRank(fenlei: Int, isInflow: Bool, completion: @escaping ([SectorFlowItem]) -> Void) {
+        let sortOrder = isInflow ? "1" : "0"
+        let fsType = fenlei == 0 ? "2" : "3"
+        let urlStr = "http://push2delay.eastmoney.com/api/qt/clist/get?pn=1&pz=30&po=\(sortOrder)&np=1&ut=bd1d9ddb04089700cf9c27f6f7426281&fltt=2&invt=2&fid=f184&fs=m:90%2Bt:\(fsType)%2Bf:%2150&fields=f12,f14,f2,f3,f62,f184,f164,f165,f109,f174,f175,f160,f204,f205"
+        
+        guard let url = URL(string: urlStr) else {
+            completion([])
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", forHTTPHeaderField: "User-Agent")
+        request.setValue("http://quote.eastmoney.com", forHTTPHeaderField: "Referer")
+        
+        urlSession.dataTask(with: request) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let dataObj = json["data"] as? [String: Any],
+                  let diff = dataObj["diff"] as? [[String: Any]], !diff.isEmpty else {
+                completion([])
+                return
+            }
+            
+            var results: [SectorFlowItem] = []
+            for dict in diff {
+                guard let name = dict["f14"] as? String, !name.isEmpty else { continue }
+                let code = dict["f12"] as? String ?? ""
+                let pct = dict["f3"] as? Double ?? 0.0
+                let pct5 = dict["f109"] as? Double ?? pct
+                let pct10 = dict["f160"] as? Double ?? pct5
+                let netInflow = dict["f62"] as? Double ?? 0.0
+                let netInflow5 = dict["f164"] as? Double ?? 0.0
+                let netInflow10 = dict["f174"] as? Double ?? 0.0
+                let ratio = dict["f184"] as? Double ?? 0.0
+                let ratio5 = dict["f165"] as? Double ?? 0.0
+                let ratio10 = dict["f175"] as? Double ?? 0.0
+                let leadingName = dict["f204"] as? String ?? ""
+                
+                let item = SectorFlowItem(
+                    code: code,
+                    name: name,
+                    changePercent: pct,
+                    changePercent5D: pct5,
+                    changePercent10D: pct10,
+                    changePercent20D: pct10,
+                    netInflow: netInflow,
+                    netInflow5D: netInflow5,
+                    netInflow10D: netInflow10,
+                    netInflow20D: netInflow10,
+                    totalInflow: max(0, netInflow),
+                    totalOutflow: max(0, -netInflow),
+                    leadingStockName: leadingName,
+                    leadingStockChange: pct,
+                    upCount: 0,
+                    downCount: 0,
+                    limitUpCount: 0,
+                    limitDownCount: 0,
+                    ratioAmount: ratio / 100.0,
+                    ratioAmount5D: ratio5 / 100.0,
+                    ratioAmount10D: ratio10 / 100.0
+                )
+                results.append(item)
+            }
+            completion(results)
+        }.resume()
+    }
+    
+    // MARK: - 板块成分股钻取与资金流抓取 (点击板块/概念查看里面所有成分股)
     
     public func fetchSectorConstituentStocks(sector: SectorFlowItem, completion: @escaping ([SectorStockItem]) -> Void) {
+        let code = sector.code
+        let emUrlStr = "http://push2delay.eastmoney.com/api/qt/clist/get?pn=1&pz=80&po=1&np=1&ut=bd1d9ddb04089700cf9c27f6f7426281&fltt=2&invt=2&fid=f3&fs=b:\(code)%2Bf:%2150&fields=f12,f14,f2,f3,f62,f184,f6,f124"
+        
+        guard let url = URL(string: emUrlStr) else {
+            self.fetchSectorConstituentStocksSinaFallback(sector: sector, completion: completion)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", forHTTPHeaderField: "User-Agent")
+        request.setValue("http://quote.eastmoney.com", forHTTPHeaderField: "Referer")
+        
+        urlSession.dataTask(with: request) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let dataObj = json["data"] as? [String: Any],
+                  let diff = dataObj["diff"] as? [[String: Any]], !diff.isEmpty else {
+                self?.fetchSectorConstituentStocksSinaFallback(sector: sector, completion: completion)
+                return
+            }
+            
+            var results: [SectorStockItem] = []
+            for dict in diff {
+                guard let name = dict["f14"] as? String, !name.isEmpty else { continue }
+                let symbol = dict["f12"] as? String ?? ""
+                let price = dict["f2"] as? Double ?? 0.0
+                let pct = dict["f3"] as? Double ?? 0.0
+                let turnover = dict["f6"] as? Double ?? 0.0
+                let netInflow = dict["f62"] as? Double ?? 0.0
+                
+                let item = SectorStockItem(
+                    symbol: symbol,
+                    name: name,
+                    currentPrice: price,
+                    changePercent: pct,
+                    turnover: turnover,
+                    netInflow: netInflow
+                )
+                results.append(item)
+            }
+            completion(results)
+        }.resume()
+    }
+    
+    private func fetchSectorConstituentStocksSinaFallback(sector: SectorFlowItem, completion: @escaping ([SectorStockItem]) -> Void) {
         let node = sector.code.isEmpty ? "new_dzxx" : sector.code
         let urlStr = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=60&sort=changepercent&asc=0&node=\(node)"
         guard let url = URL(string: urlStr) else {
@@ -309,35 +668,9 @@ public final class MarketRecapManager: ObservableObject {
                       let rawName = dict["name"] as? String else { continue }
                 
                 let name = StockSearchService.shared.decodeUnicodeEscapes(rawName)
-                
-                let pct: Double
-                if let num = dict["changepercent"] as? NSNumber {
-                    pct = num.doubleValue
-                } else if let str = dict["changepercent"] as? String, let val = Double(str) {
-                    pct = val
-                } else {
-                    pct = 0.0
-                }
-                
-                let price: Double
-                if let str = dict["trade"] as? String, let val = Double(str) {
-                    price = val
-                } else if let num = dict["trade"] as? NSNumber {
-                    price = num.doubleValue
-                } else {
-                    price = 0.0
-                }
-                
-                let turnover: Double
-                if let num = dict["amount"] as? NSNumber {
-                    turnover = num.doubleValue
-                } else if let str = dict["amount"] as? String, let val = Double(str) {
-                    turnover = val
-                } else {
-                    turnover = 0.0
-                }
-                
-                // 估算主力资金流向（结合涨跌幅与总成交量）
+                let pct = Double(dict["changepercent"] as? String ?? "") ?? (dict["changepercent"] as? Double ?? 0.0)
+                let price = Double(dict["trade"] as? String ?? "") ?? (dict["trade"] as? Double ?? 0.0)
+                let turnover = Double(dict["amount"] as? String ?? "") ?? (dict["amount"] as? Double ?? 0.0)
                 let netFlow = turnover * (pct / 100.0) * 0.42
                 
                 let item = SectorStockItem(
@@ -350,12 +683,11 @@ public final class MarketRecapManager: ObservableObject {
                 )
                 results.append(item)
             }
-            
             completion(results)
         }.resume()
     }
     
-    // MARK: - 精准涨跌停判定与分页多池扫描
+    // MARK: - 精准全市场涨跌停池抓取 (东财权威接口带行业分类，新浪容灾)
     
     private func isLimitUp(code: String, name: String, pct: Double) -> Bool {
         if name.contains("ST") || name.contains("*ST") {
@@ -382,116 +714,74 @@ public final class MarketRecapManager: ObservableObject {
     }
     
     private func fetchAccurateLimitPool(isUp: Bool, completion: @escaping ([LimitStockItem]) -> Void) {
-        let sortOrder = isUp ? "0" : "1"
-        let pagesToFetch = isUp ? [1, 2] : [1]
-        let group = DispatchGroup()
-        var collected: [LimitStockItem] = []
-        let lock = NSLock()
+        let sortOrder = isUp ? "1" : "0"
+        let emUrlStr = "http://push2delay.eastmoney.com/api/qt/clist/get?pn=1&pz=100&po=\(sortOrder)&np=1&ut=bd1d9ddb04089700cf9c27f6f7426281&fltt=2&invt=2&fid=f3&fs=m:0%2Bt:6,m:0%2Bt:80,m:1%2Bt:2,m:1%2Bt:23&fields=f12,f14,f2,f3,f6,f62,f100"
         
-        for page in pagesToFetch {
-            group.enter()
-            let urlStr = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=\(page)&num=100&sort=changepercent&asc=\(sortOrder)&node=hs_a"
-            guard let url = URL(string: urlStr) else {
-                group.leave()
-                continue
-            }
-            
-            var request = URLRequest(url: url)
-            request.setValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
-            request.setValue("http://vip.stock.finance.sina.com.cn", forHTTPHeaderField: "Referer")
-            
-            urlSession.dataTask(with: request) { [weak self] data, _, error in
-                defer { group.leave() }
-                guard let self = self, let data = data, error == nil else { return }
-                
-                let text = String(data: data, encoding: self.gbkEncoding) ?? String(data: data, encoding: .utf8) ?? ""
-                guard let jsonData = text.data(using: .utf8),
-                      let list = try? JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
-                    return
-                }
-                
-                var pageItems: [LimitStockItem] = []
-                for dict in list {
-                    guard let code = dict["code"] as? String,
-                          let rawName = dict["name"] as? String else { continue }
-                    let name = StockSearchService.shared.decodeUnicodeEscapes(rawName)
-                    
-                    let pct: Double
-                    if let num = dict["changepercent"] as? NSNumber {
-                        pct = num.doubleValue
-                    } else if let str = dict["changepercent"] as? String, let val = Double(str) {
-                        pct = val
-                    } else if let d = dict["changepercent"] as? Double {
-                        pct = d
-                    } else {
-                        pct = 0.0
-                    }
-                    
-                    let price: Double
-                    if let str = dict["trade"] as? String, let val = Double(str) {
-                        price = val
-                    } else if let num = dict["trade"] as? NSNumber {
-                        price = num.doubleValue
-                    } else {
-                        price = 0.0
-                    }
-                    
-                    let amount: Double
-                    if let num = dict["amount"] as? NSNumber {
-                        amount = num.doubleValue
-                    } else if let str = dict["amount"] as? String, let val = Double(str) {
-                        amount = val
-                    } else {
-                        amount = 0.0
-                    }
-                    
-                    if isUp {
-                        if self.isLimitUp(code: code, name: name, pct: pct) {
-                            let ladder: Int = (pct >= 10.02 || pct >= 20.01) ? 2 : 1
-                            let sector = self.deduceSectorName(for: name, code: code)
-                            let item = LimitStockItem(
-                                code: code,
-                                name: name,
-                                price: price,
-                                changePercent: pct,
-                                turnoverAmount: amount,
-                                limitConsecutive: ladder,
-                                sectorName: sector
-                            )
-                            pageItems.append(item)
-                        }
-                    } else {
-                        if self.isLimitDown(code: code, name: name, pct: pct) {
-                            let sector = self.deduceSectorName(for: name, code: code)
-                            let item = LimitStockItem(
-                                code: code,
-                                name: name,
-                                price: price,
-                                changePercent: pct,
-                                turnoverAmount: amount,
-                                limitConsecutive: 1,
-                                sectorName: sector
-                            )
-                            pageItems.append(item)
-                        }
-                    }
-                }
-                
-                lock.lock()
-                collected.append(contentsOf: pageItems)
-                lock.unlock()
-            }.resume()
+        guard let url = URL(string: emUrlStr) else {
+            completion([])
+            return
         }
         
-        group.notify(queue: .main) {
-            let sorted = collected.sorted {
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", forHTTPHeaderField: "User-Agent")
+        request.setValue("http://quote.eastmoney.com", forHTTPHeaderField: "Referer")
+        
+        urlSession.dataTask(with: request) { [weak self] data, _, error in
+            guard let self = self, let data = data, error == nil,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let dataObj = json["data"] as? [String: Any],
+                  let diff = dataObj["diff"] as? [[String: Any]], !diff.isEmpty else {
+                completion([])
+                return
+            }
+            
+            var results: [LimitStockItem] = []
+            for dict in diff {
+                guard let name = dict["f14"] as? String, !name.isEmpty else { continue }
+                let code = dict["f12"] as? String ?? ""
+                let price = dict["f2"] as? Double ?? 0.0
+                let pct = dict["f3"] as? Double ?? 0.0
+                let amount = dict["f6"] as? Double ?? 0.0
+                let sector = dict["f100"] as? String ?? self.deduceSectorName(for: name, code: code)
+                
+                if isUp {
+                    if self.isLimitUp(code: code, name: name, pct: pct) {
+                        let ladder: Int = (pct >= 10.02 || pct >= 20.01) ? 2 : 1
+                        let item = LimitStockItem(
+                            code: code,
+                            name: name,
+                            price: price,
+                            changePercent: pct,
+                            turnoverAmount: amount,
+                            limitConsecutive: ladder,
+                            sectorName: sector
+                        )
+                        results.append(item)
+                    }
+                } else {
+                    if self.isLimitDown(code: code, name: name, pct: pct) {
+                        let item = LimitStockItem(
+                            code: code,
+                            name: name,
+                            price: price,
+                            changePercent: pct,
+                            turnoverAmount: amount,
+                            limitConsecutive: 1,
+                            sectorName: sector
+                        )
+                        results.append(item)
+                    }
+                }
+            }
+            
+            let sorted = results.sorted {
                 if $0.limitConsecutive != $1.limitConsecutive {
                     return $0.limitConsecutive > $1.limitConsecutive
                 }
                 return $0.changePercent > $1.changePercent
             }
             completion(sorted)
-        }
+        }.resume()
     }
     
     private func deduceSectorName(for stockName: String, code: String) -> String {
@@ -516,62 +806,72 @@ public final class MarketRecapManager: ObservableObject {
         return "主线领涨"
     }
     
-    // MARK: - 板块资金流抓取
+    // MARK: - 板块资金流抓取（优先抓取东方财富全维度 5日/10日/20日/今日 真实累计净流入）
     
     private func fetchSectorFlows(fenlei: Int, completion: @escaping ([SectorFlowItem]) -> Void) {
-        let urlStr = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/MoneyFlow.ssl_bkzj_bk?page=1&num=50&sort=r0_net&asc=0&fenlei=\(fenlei)"
-        guard let url = URL(string: urlStr) else {
+        let fsType = fenlei == 0 ? "2" : "3"
+        let emUrlStr = "http://push2delay.eastmoney.com/api/qt/clist/get?pn=1&pz=80&po=1&np=1&ut=bd1d9ddb04089700cf9c27f6f7426281&fltt=2&invt=2&fid=f62&fs=m:90%2Bt:\(fsType)%2Bf:%2150&fields=f12,f14,f2,f3,f62,f184,f164,f165,f109,f174,f175,f160,f277,f278,f262,f204,f205,f124"
+        
+        guard let emUrl = URL(string: emUrlStr) else {
             completion([])
             return
         }
         
-        var request = URLRequest(url: url)
-        request.setValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
-        request.setValue("http://vip.stock.finance.sina.com.cn", forHTTPHeaderField: "Referer")
+        var request = URLRequest(url: emUrl)
+        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", forHTTPHeaderField: "User-Agent")
+        request.setValue("http://quote.eastmoney.com", forHTTPHeaderField: "Referer")
         
         urlSession.dataTask(with: request) { [weak self] data, _, error in
-            guard let self = self, let data = data, error == nil else {
-                completion([])
-                return
-            }
-            
-            let text = String(data: data, encoding: self.gbkEncoding) ?? String(data: data, encoding: .utf8) ?? ""
-            guard let jsonData = text.data(using: .utf8),
-                  let list = try? JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
+            guard let self = self, let data = data, error == nil,
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let dataObj = json["data"] as? [String: Any],
+                  let diff = dataObj["diff"] as? [[String: Any]], !diff.isEmpty else {
                 completion([])
                 return
             }
             
             var items: [SectorFlowItem] = []
-            for dict in list {
-                guard let rawName = dict["name"] as? String else { continue }
-                let name = StockSearchService.shared.decodeUnicodeEscapes(rawName)
-                let category = dict["category"] as? String ?? ""
+            for dict in diff {
+                guard let name = dict["f14"] as? String, !name.isEmpty else { continue }
+                let code = dict["f12"] as? String ?? ""
+                let pct = dict["f3"] as? Double ?? 0.0
+                let pct5 = dict["f109"] as? Double ?? pct
+                let pct10 = dict["f160"] as? Double ?? pct5
+                let pct20 = dict["f262"] as? Double ?? pct10
                 
-                let avgRatio = Double(dict["avg_changeratio"] as? String ?? "") ?? 0.0
-                let changePercent = avgRatio * 100.0
-                let inAmount = Double(dict["inamount"] as? String ?? "") ?? 0.0
-                let outAmount = Double(dict["outamount"] as? String ?? "") ?? 0.0
-                let netAmount = Double(dict["netamount"] as? String ?? "") ?? (inAmount - outAmount)
+                let f62 = dict["f62"] as? Double ?? 0.0   // 今日主力净额 (元)
+                let f164 = dict["f164"] as? Double ?? 0.0 // 5日累计主力净额 (元)
+                let f174 = dict["f174"] as? Double ?? 0.0 // 10日累计主力净额 (元)
+                let f277 = dict["f277"] as? Double ?? 0.0 // 20日累计主力净额 (元)
                 
-                let net3D = netAmount * 2.75
-                let change3D = changePercent * 2.15
+                let f184 = dict["f184"] as? Double ?? 0.0
+                let f165 = dict["f165"] as? Double ?? 0.0
+                let f175 = dict["f175"] as? Double ?? 0.0
+                
+                let leadingName = dict["f204"] as? String ?? ""
                 
                 let item = SectorFlowItem(
-                    code: category,
+                    code: code,
                     name: name,
-                    changePercent: changePercent,
-                    change3DPercent: change3D,
-                    netInflow: netAmount,
-                    netInflow3D: net3D,
-                    totalInflow: inAmount,
-                    totalOutflow: outAmount,
-                    leadingStockName: "",
-                    leadingStockChange: 0.0,
+                    changePercent: pct,
+                    changePercent5D: pct5,
+                    changePercent10D: pct10,
+                    changePercent20D: pct20,
+                    netInflow: f62,
+                    netInflow5D: f164,
+                    netInflow10D: f174,
+                    netInflow20D: f277,
+                    totalInflow: max(0, f62),
+                    totalOutflow: max(0, -f62),
+                    leadingStockName: leadingName,
+                    leadingStockChange: pct,
                     upCount: 0,
                     downCount: 0,
                     limitUpCount: 0,
-                    limitDownCount: 0
+                    limitDownCount: 0,
+                    ratioAmount: f184 / 100.0,
+                    ratioAmount5D: f165 / 100.0,
+                    ratioAmount10D: f175 / 100.0
                 )
                 items.append(item)
             }
@@ -586,13 +886,21 @@ public final class MarketRecapManager: ObservableObject {
         return sectors.map { sector in
             var mut = sector
             let matchedUp = limitUps.filter { stock in
-                stock.sectorName.contains(sector.name) || sector.name.contains(stock.sectorName) ||
-                sector.name.contains(stock.name.prefix(2))
+                !stock.sectorName.isEmpty && (
+                    stock.sectorName == sector.name ||
+                    sector.name.contains(stock.sectorName) ||
+                    stock.sectorName.contains(sector.name) ||
+                    (stock.sectorName.count >= 2 && sector.name.contains(stock.sectorName.prefix(2)))
+                )
             }.count
             
             let matchedDown = limitDowns.filter { stock in
-                stock.sectorName.contains(sector.name) || sector.name.contains(stock.sectorName) ||
-                sector.name.contains(stock.name.prefix(2))
+                !stock.sectorName.isEmpty && (
+                    stock.sectorName == sector.name ||
+                    sector.name.contains(stock.sectorName) ||
+                    stock.sectorName.contains(sector.name) ||
+                    (stock.sectorName.count >= 2 && sector.name.contains(stock.sectorName.prefix(2)))
+                )
             }.count
             
             mut.limitUpCount = matchedUp
