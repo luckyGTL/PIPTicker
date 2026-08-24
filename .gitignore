@@ -1,0 +1,7 @@
+node_modules/
+Pods/
+build/
+DerivedData/
+.DS_Store
+*.xcuserstate
+*.xcworkspace/xcuserdata
