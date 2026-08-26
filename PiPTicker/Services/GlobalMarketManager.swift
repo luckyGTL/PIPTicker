@@ -104,7 +104,7 @@ public final class GlobalMarketManager: ObservableObject {
             dispatchGroup.leave()
         }
         
-        dispatchGroup.notify(queue: .main) { [weak self] in
+        dispatchGroup.notify(queue: .global(qos: .userInitiated)) { [weak self] in
             guard let self = self else { return }
             
             // 确定性排序美股指数
@@ -135,19 +135,23 @@ public final class GlobalMarketManager: ObservableObject {
                 return idxA < idxB
             }
             
-            self.globalIndices = sortedUSIndices + sortedKoreaIndices
-            self.usLeaderStocks = sortedUSStocks
-            self.usSectors = fetchedUSSectors
-            self.koreaLeaderStocks = sortedKoreaStocks
-            self.lastUpdated = Date()
-            self.isRefreshing = false
+            let finalGlobalIndices = sortedUSIndices + sortedKoreaIndices
+            
+            DispatchQueue.main.async {
+                self.globalIndices = finalGlobalIndices
+                self.usLeaderStocks = sortedUSStocks
+                self.usSectors = fetchedUSSectors
+                self.koreaLeaderStocks = sortedKoreaStocks
+                self.lastUpdated = Date()
+                self.isRefreshing = false
+            }
         }
     }
     
-    // MARK: - 官方美股盘前盘后实时数据直连（秒级动态跳动，涵盖美光MU、闪迪WDC、海力士SKHY等）
+    // MARK: - 官方美股盘前盘后实时数据直连（秒级动态跳动，涵盖美光MU、闪迪WDC、海力士SKHY、英伟达NVDA等全量龙头与十大核心板块）
     
     private func fetchRealtimeUSQuotes(completion: @escaping ([GlobalIndexQuote], [USStockQuote], [USSectorQuote]) -> Void) {
-        let queryList = "gb_dji,gb_ixic,gb_inx,gb_soxx,gb_xlk,gb_xly,gb_xlc,gb_xlv,gb_xle,gb_nvda,gb_mu,gb_wdc,gb_skhy,gb_tsla,gb_aapl,gb_msft,gb_googl,gb_amzn,gb_meta,gb_tsm,gb_avgo,gb_amd,gb_qcom,gb_intc,gb_arm,gb_lly,gb_nflx"
+        let queryList = "gb_dji,gb_ixic,gb_inx,gb_soxx,gb_xlk,gb_xly,gb_xlc,gb_xlv,gb_xle,gb_xlf,gb_xli,gb_xlp,gb_xrt,gb_igv,gb_smh,gb_nvda,gb_mu,gb_wdc,gb_skhy,gb_tsla,gb_aapl,gb_msft,gb_googl,gb_amzn,gb_meta,gb_tsm,gb_avgo,gb_amd,gb_qcom,gb_intc,gb_arm,gb_lly,gb_nflx,gb_pltr,gb_jpm,gb_gs,gb_xom,gb_cvx,gb_ba,gb_ge,gb_wmt,gb_cost,gb_coin,gb_mstr"
         let urlStr = "http://hq.sinajs.cn/list=\(queryList)"
         guard let url = URL(string: urlStr) else {
             completion([], [], [])
@@ -164,129 +168,133 @@ public final class GlobalMarketManager: ObservableObject {
                 return
             }
             
-            let text = String(data: data, encoding: self.gbkEncoding) ?? String(data: data, encoding: .utf8) ?? ""
-            let lines = text.components(separatedBy: ";")
-            
-            var indices: [GlobalIndexQuote] = []
-            var stocks: [USStockQuote] = []
-            var sectorETFs: [String: (regularPct: Double, prePostPct: Double?)] = [:]
-            
-            for line in lines {
-                let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !trimmed.isEmpty, let equalIdx = trimmed.firstIndex(of: "=") else { continue }
+            DispatchQueue.global(qos: .userInitiated).async {
+                let text = String(data: data, encoding: self.gbkEncoding) ?? String(data: data, encoding: .utf8) ?? ""
+                let lines = text.components(separatedBy: ";")
                 
-                let varName = String(trimmed[..<equalIdx]).trimmingCharacters(in: .whitespaces)
-                let rawVal = String(trimmed[trimmed.index(after: equalIdx)...])
-                    .trimmingCharacters(in: CharacterSet(charactersIn: "\" \n\r\t;"))
-                let parts = rawVal.components(separatedBy: ",")
-                guard parts.count >= 25 else { continue }
+                var indices: [GlobalIndexQuote] = []
+                var stocks: [USStockQuote] = []
+                var sectorETFs: [String: (regularPct: Double, prePostPct: Double?)] = [:]
                 
-                let name = parts[0].trimmingCharacters(in: .whitespaces)
-                let regularPrice = Double(parts[1]) ?? 0.0
-                let regularChangePct = Double(parts[2]) ?? 0.0
-                let tradeTime = parts[3].trimmingCharacters(in: .whitespaces)
-                let regularChangeAmt = Double(parts[4]) ?? 0.0
-                let totalMarketCapStr = parts[12].trimmingCharacters(in: .whitespaces)
-                
-                // 盘前 / 盘后实时数据字段 (parts[21]: 盘前/盘后价格, parts[22]: 盘前/盘后涨跌幅, parts[23]: 盘前/盘后涨跌额, parts[24]: 美东时间)
-                let prePostPriceVal = Double(parts[21])
-                let prePostChangePctVal = Double(parts[22])
-                let prePostChangeAmtVal = Double(parts[23])
-                let prePostTimeStr = parts[24].trimmingCharacters(in: .whitespaces)
-                
-                let isPrePostActive = (prePostPriceVal != nil && prePostPriceVal! > 0)
-                let finalPrePostPrice = isPrePostActive ? prePostPriceVal : nil
-                let finalPrePostChangePct: Double? = {
-                    guard isPrePostActive, let p = prePostPriceVal else { return nil }
-                    if let pct = prePostChangePctVal {
-                        return pct
-                    } else if regularPrice > 0 {
-                        return ((p - regularPrice) / regularPrice) * 100.0
-                    }
-                    return nil
-                }()
-                
-                if varName.contains("gb_dji") {
-                    indices.append(GlobalIndexQuote(
-                        symbol: ".DJI",
-                        name: "道琼斯工业指数",
-                        region: "美股",
-                        currentPrice: regularPrice,
-                        changeAmount: regularChangeAmt,
-                        changePercent: regularChangePct,
-                        statusText: isPrePostActive ? "盘前/后" : "常规时段",
-                        updateTime: isPrePostActive ? prePostTimeStr : tradeTime
-                    ))
-                } else if varName.contains("gb_ixic") {
-                    indices.append(GlobalIndexQuote(
-                        symbol: ".IXIC",
-                        name: "纳斯达克综合指数",
-                        region: "美股",
-                        currentPrice: regularPrice,
-                        changeAmount: regularChangeAmt,
-                        changePercent: regularChangePct,
-                        statusText: isPrePostActive ? "盘前/后" : "常规时段",
-                        updateTime: isPrePostActive ? prePostTimeStr : tradeTime
-                    ))
-                } else if varName.contains("gb_inx") {
-                    indices.append(GlobalIndexQuote(
-                        symbol: ".INX",
-                        name: "标普500指数",
-                        region: "美股",
-                        currentPrice: regularPrice,
-                        changeAmount: regularChangeAmt,
-                        changePercent: regularChangePct,
-                        statusText: isPrePostActive ? "盘前/后" : "常规时段",
-                        updateTime: isPrePostActive ? prePostTimeStr : tradeTime
-                    ))
-                } else if varName.contains("gb_soxx") || varName.contains("gb_xlk") || varName.contains("gb_xly") ||
-                          varName.contains("gb_xlc") || varName.contains("gb_xlv") || varName.contains("gb_xle") {
-                    // 行业ETF官方直连行情（SOXX芯片, XLK科技, XLY消费, XLC通信, XLV医疗, XLE能源）
-                    let etfKey = varName.replacingOccurrences(of: "hq_str_gb_", with: "").replacingOccurrences(of: "var hq_str_gb_", with: "")
-                    sectorETFs[etfKey] = (regularPct: regularChangePct, prePostPct: finalPrePostChangePct)
-                } else {
-                    let symbolClean = varName.replacingOccurrences(of: "hq_str_gb_", with: "")
-                        .replacingOccurrences(of: "var hq_str_gb_", with: "")
-                        .uppercased()
+                for line in lines {
+                    let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+                    guard !trimmed.isEmpty, let equalIdx = trimmed.firstIndex(of: "=") else { continue }
                     
-                    let meta = self.getUSStockMeta(symbol: symbolClean, defaultName: name)
+                    let varName = String(trimmed[..<equalIdx]).trimmingCharacters(in: .whitespaces)
+                    let rawVal = String(trimmed[trimmed.index(after: equalIdx)...])
+                        .trimmingCharacters(in: CharacterSet(charactersIn: "\" \n\r\t;"))
+                    let parts = rawVal.components(separatedBy: ",")
+                    // 安全容错：指数与部分行业ETF返回字段数在 10~26 之间，支持 >= 3 正常解析常规价与涨跌幅
+                    guard parts.count >= 3 else { continue }
                     
-                    var capFormatted = ""
-                    if let cap = Double(totalMarketCapStr), cap > 0 {
-                        capFormatted = String(format: "$%.2fB", cap / 1_000_000_000.0)
+                    let name = parts[0].trimmingCharacters(in: .whitespaces)
+                    let regularPrice = Double(parts[1]) ?? 0.0
+                    let regularChangePct = Double(parts[2]) ?? 0.0
+                    let tradeTime = parts.count > 3 ? parts[3].trimmingCharacters(in: .whitespaces) : ""
+                    let regularChangeAmt = parts.count > 4 ? (Double(parts[4]) ?? 0.0) : 0.0
+                    let totalMarketCapStr = parts.count > 12 ? parts[12].trimmingCharacters(in: .whitespaces) : ""
+                    
+                    // 盘前 / 盘后实时数据字段 (parts[21]: 盘前/盘后价格, parts[22]: 盘前/盘后涨跌幅, parts[24]: 美东时间)
+                    var prePostPriceVal: Double? = nil
+                    var prePostChangePctVal: Double? = nil
+                    var prePostTimeStr = ""
+                    if parts.count >= 25 {
+                        prePostPriceVal = Double(parts[21])
+                        prePostChangePctVal = Double(parts[22])
+                        prePostTimeStr = parts[24].trimmingCharacters(in: .whitespaces)
                     }
                     
-                    let quote = USStockQuote(
-                        symbol: symbolClean,
-                        nameCn: meta.cn,
-                        nameEn: name,
-                        regularPrice: regularPrice,
-                        regularChange: regularChangeAmt,
-                        regularChangePercent: regularChangePct,
-                        prePostPrice: finalPrePostPrice,
-                        prePostChangePercent: finalPrePostChangePct,
-                        marketCapFormatted: capFormatted,
-                        volumeFormatted: prePostTimeStr.isEmpty ? tradeTime : prePostTimeStr,
-                        sectorCategory: meta.sector,
-                        isPrePostActive: isPrePostActive
-                    )
-                    stocks.append(quote)
+                    let isPrePostActive = (prePostPriceVal != nil && prePostPriceVal! > 0)
+                    let finalPrePostPrice = isPrePostActive ? prePostPriceVal : nil
+                    let finalPrePostChangePct: Double? = {
+                        guard isPrePostActive, let p = prePostPriceVal else { return nil }
+                        if let pct = prePostChangePctVal, abs(pct) > 0.0001 {
+                            return pct
+                        } else if regularPrice > 0 {
+                            return ((p - regularPrice) / regularPrice) * 100.0
+                        }
+                        return nil
+                    }()
+                    
+                    let cleanCode = varName
+                        .replacingOccurrences(of: "var ", with: "")
+                        .replacingOccurrences(of: "var", with: "")
+                        .replacingOccurrences(of: "hq_str_gb_", with: "")
+                        .replacingOccurrences(of: "gb_", with: "")
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                        .lowercased()
+                    
+                    if cleanCode == "dji" {
+                        indices.append(GlobalIndexQuote(
+                            symbol: ".DJI",
+                            name: "道琼斯工业指数",
+                            region: "美股",
+                            currentPrice: regularPrice,
+                            changeAmount: regularChangeAmt,
+                            changePercent: regularChangePct,
+                            statusText: isPrePostActive ? "盘前/后" : "常规时段",
+                            updateTime: isPrePostActive ? prePostTimeStr : tradeTime
+                        ))
+                    } else if cleanCode == "ixic" {
+                        indices.append(GlobalIndexQuote(
+                            symbol: ".IXIC",
+                            name: "纳斯达克综合指数",
+                            region: "美股",
+                            currentPrice: regularPrice,
+                            changeAmount: regularChangeAmt,
+                            changePercent: regularChangePct,
+                            statusText: isPrePostActive ? "盘前/后" : "常规时段",
+                            updateTime: isPrePostActive ? prePostTimeStr : tradeTime
+                        ))
+                    } else if cleanCode == "inx" {
+                        indices.append(GlobalIndexQuote(
+                            symbol: ".INX",
+                            name: "标普500指数",
+                            region: "美股",
+                            currentPrice: regularPrice,
+                            changeAmount: regularChangeAmt,
+                            changePercent: regularChangePct,
+                            statusText: isPrePostActive ? "盘前/后" : "常规时段",
+                            updateTime: isPrePostActive ? prePostTimeStr : tradeTime
+                        ))
+                    } else if ["soxx", "smh", "xlk", "xly", "xlc", "xlv", "xle", "xlf", "xli", "xlp", "xrt", "igv"].contains(cleanCode) {
+                        // 行业ETF官方直连行情
+                        sectorETFs[cleanCode] = (regularPct: regularChangePct, prePostPct: finalPrePostChangePct)
+                    } else {
+                        let symbolClean = cleanCode.uppercased()
+                        let meta = self.getUSStockMeta(symbol: symbolClean, defaultName: name)
+                        
+                        var capFormatted = ""
+                        if let cap = Double(totalMarketCapStr), cap > 0 {
+                            capFormatted = String(format: "$%.2fB", cap / 1_000_000_000.0)
+                        }
+                        
+                        let quote = USStockQuote(
+                            symbol: symbolClean,
+                            nameCn: meta.cn,
+                            nameEn: name,
+                            regularPrice: regularPrice,
+                            regularChange: regularChangeAmt,
+                            regularChangePercent: regularChangePct,
+                            prePostPrice: finalPrePostPrice,
+                            prePostChangePercent: finalPrePostChangePct,
+                            marketCapFormatted: capFormatted,
+                            volumeFormatted: prePostTimeStr.isEmpty ? tradeTime : prePostTimeStr,
+                            sectorCategory: meta.sector,
+                            isPrePostActive: isPrePostActive
+                        )
+                        stocks.append(quote)
+                    }
                 }
+                
+                // 实时计算美股前十大核心行业板块表现 (融合官方行业 ETF 与实时成分股盘前盘后深度撮合行情)
+                let sectors = self.calculateUSSectorsFromStocks(stocks, sectorETFs: sectorETFs)
+                completion(indices, stocks, sectors)
             }
-            
-            // 实时计算各板块表现 (结合官方板块 ETF 与成分股实时盘前盘后行情)
-            let sectors = self.calculateUSSectorsFromStocks(stocks, sectorETFs: sectorETFs)
-            completion(indices, stocks, sectors)
         }.resume()
     }
     
     private func calculateUSSectorsFromStocks(_ stocks: [USStockQuote], sectorETFs: [String: (regularPct: Double, prePostPct: Double?)]) -> [USSectorQuote] {
-        let chipStocks = stocks.filter { ["NVDA", "TSM", "AVGO", "AMD", "QCOM", "MU", "WDC", "SKHY", "INTC", "ARM"].contains($0.symbol) }
-        let techStocks = stocks.filter { ["AAPL", "MSFT", "GOOGL", "META"].contains($0.symbol) }
-        let autoStocks = stocks.filter { ["TSLA"].contains($0.symbol) }
-        let mediaStocks = stocks.filter { ["AMZN", "NFLX"].contains($0.symbol) }
-        let pharmaStocks = stocks.filter { ["LLY"].contains($0.symbol) }
-        
         func avgPct(_ list: [USStockQuote]) -> Double {
             guard !list.isEmpty else { return 0.0 }
             return list.map { $0.regularChangePercent }.reduce(0, +) / Double(list.count)
@@ -297,57 +305,56 @@ public final class GlobalMarketManager: ObservableObject {
             return active.reduce(0, +) / Double(active.count)
         }
         
-        let soxxData = sectorETFs["soxx"]
-        let xlkData = sectorETFs["xlk"]
-        let xlyData = sectorETFs["xly"]
-        let xlcData = sectorETFs["xlc"]
-        let xlvData = sectorETFs["xlv"]
-        let xleData = sectorETFs["xle"]
-        
-        return [
-            USSectorQuote(
-                name: "半导体与存储芯片",
-                changePercent: soxxData?.regularPct ?? avgPct(chipStocks),
-                prePostChangePercent: soxxData?.prePostPct ?? avgPrePost(chipStocks),
-                leadingStock: chipStocks.max(by: { ($0.prePostChangePercent ?? $0.regularChangePercent) < ($1.prePostChangePercent ?? $1.regularChangePercent) })?.symbol ?? "NVDA",
-                iconName: "cpu.fill"
-            ),
-            USSectorQuote(
-                name: "科技巨头/软件",
-                changePercent: xlkData?.regularPct ?? avgPct(techStocks),
-                prePostChangePercent: xlkData?.prePostPct ?? avgPrePost(techStocks),
-                leadingStock: techStocks.max(by: { ($0.prePostChangePercent ?? $0.regularChangePercent) < ($1.prePostChangePercent ?? $1.regularChangePercent) })?.symbol ?? "MSFT",
-                iconName: "laptopcomputer"
-            ),
-            USSectorQuote(
-                name: "新能源汽车/消费",
-                changePercent: xlyData?.regularPct ?? avgPct(autoStocks),
-                prePostChangePercent: xlyData?.prePostPct ?? avgPrePost(autoStocks),
-                leadingStock: "TSLA",
-                iconName: "car.fill"
-            ),
-            USSectorQuote(
-                name: "通信服务/流媒体",
-                changePercent: xlcData?.regularPct ?? avgPct(mediaStocks),
-                prePostChangePercent: xlcData?.prePostPct ?? avgPrePost(mediaStocks),
-                leadingStock: mediaStocks.max(by: { ($0.prePostChangePercent ?? $0.regularChangePercent) < ($1.prePostChangePercent ?? $1.regularChangePercent) })?.symbol ?? "AMZN",
-                iconName: "play.tv.fill"
-            ),
-            USSectorQuote(
-                name: "生物医药",
-                changePercent: xlvData?.regularPct ?? avgPct(pharmaStocks),
-                prePostChangePercent: xlvData?.prePostPct ?? avgPrePost(pharmaStocks),
-                leadingStock: "LLY",
-                iconName: "cross.case.fill"
-            ),
-            USSectorQuote(
-                name: "能源与大宗商品",
-                changePercent: xleData?.regularPct ?? 0.0,
-                prePostChangePercent: xleData?.prePostPct,
-                leadingStock: "XLE",
-                iconName: "flame.circle.fill"
+        func buildSector(name: String, etfKey: String, constituentSymbols: [String], iconName: String) -> USSectorQuote {
+            let constituentStocks = stocks.filter { constituentSymbols.contains($0.symbol) }
+            let etfData = sectorETFs[etfKey]
+            
+            let regularChange = etfData?.regularPct ?? avgPct(constituentStocks)
+            let prePostChange = etfData?.prePostPct ?? avgPrePost(constituentStocks)
+            
+            // 领涨龙头（优先使用当前实时有效涨跌幅）
+            let bestStock = constituentStocks.max(by: {
+                ($0.prePostChangePercent ?? $0.regularChangePercent) < ($1.prePostChangePercent ?? $1.regularChangePercent)
+            })
+            
+            let leadingText: String
+            if let best = bestStock {
+                let bestPct = best.prePostChangePercent ?? best.regularChangePercent
+                leadingText = "\(best.symbol) (\(String(format: "%+.1f%%", bestPct)))"
+            } else {
+                leadingText = etfKey.uppercased()
+            }
+            
+            return USSectorQuote(
+                name: name,
+                changePercent: regularChange,
+                prePostChangePercent: prePostChange,
+                leadingStock: leadingText,
+                iconName: iconName
             )
+        }
+        
+        var sectorList: [USSectorQuote] = [
+            buildSector(name: "半导体与存储芯片", etfKey: "soxx", constituentSymbols: ["NVDA", "TSM", "AVGO", "AMD", "QCOM", "MU", "WDC", "SKHY", "INTC", "ARM"], iconName: "cpu.fill"),
+            buildSector(name: "科技巨头与云计算", etfKey: "xlk", constituentSymbols: ["AAPL", "MSFT", "GOOGL", "AMZN", "META"], iconName: "laptopcomputer"),
+            buildSector(name: "AI与企业级软件", etfKey: "igv", constituentSymbols: ["PLTR", "MSFT", "GOOGL", "META", "AMZN"], iconName: "brain.head.profile"),
+            buildSector(name: "新能源汽车与智驾", etfKey: "xly", constituentSymbols: ["TSLA"], iconName: "car.fill"),
+            buildSector(name: "生物医药与新药创新", etfKey: "xlv", constituentSymbols: ["LLY"], iconName: "cross.case.fill"),
+            buildSector(name: "金融科技与数字资产", etfKey: "coin", constituentSymbols: ["COIN", "MSTR"], iconName: "bitcoinsign.circle.fill"),
+            buildSector(name: "银行与华尔街投行", etfKey: "xlf", constituentSymbols: ["JPM", "GS"], iconName: "building.columns.fill"),
+            buildSector(name: "通信服务与流媒体", etfKey: "xlc", constituentSymbols: ["NFLX", "AMZN", "GOOGL", "META"], iconName: "play.tv.fill"),
+            buildSector(name: "能源石油与大宗商品", etfKey: "xle", constituentSymbols: ["XOM", "CVX"], iconName: "flame.circle.fill"),
+            buildSector(name: "工业制造与航空航天", etfKey: "xli", constituentSymbols: ["BA", "GE"], iconName: "airplane.circle.fill")
         ]
+        
+        // 动态按照当前实时涨跌幅（盘前/盘后优先，否则常规交易涨跌）降序排列，确保呈现美股实时 Top 10 板块
+        sectorList.sort { s1, s2 in
+            let p1 = s1.prePostChangePercent ?? s1.changePercent
+            let p2 = s2.prePostChangePercent ?? s2.changePercent
+            return p1 > p2
+        }
+        
+        return sectorList
     }
     
     private func getUSStockMeta(symbol: String, defaultName: String) -> (cn: String, sector: String) {
@@ -370,6 +377,17 @@ public final class GlobalMarketManager: ObservableObject {
         case "ARM": return ("ARM控股", "芯片架构设计")
         case "LLY": return ("礼来", "减肥药/生物制药")
         case "NFLX": return ("奈飞", "全球流媒体")
+        case "PLTR": return ("Palantir", "AI企业软件/大数据")
+        case "JPM": return ("摩根大通", "全能银行/金融巨头")
+        case "GS": return ("高盛", "华尔街顶级投行")
+        case "XOM": return ("埃克森美孚", "全球石油综合巨头")
+        case "CVX": return ("雪佛龙", "石油天然气龙头")
+        case "BA": return ("波音", "商业航空/军工防务")
+        case "GE": return ("通用电气", "航空发动机/工业制造")
+        case "WMT": return ("沃尔玛", "全球零售连锁")
+        case "COST": return ("开市客", "会员制仓储超市")
+        case "COIN": return ("Coinbase", "加密资产交易所")
+        case "MSTR": return ("微策投资", "比特币储备/商业智能")
         default: return (defaultName, "美股核心")
         }
     }

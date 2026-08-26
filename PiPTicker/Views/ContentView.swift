@@ -115,10 +115,14 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             
-            // 自选股要闻突发提醒弹窗 (Mac 全局浮层)
+            // 自选股要闻突发提醒弹窗 (Mac 全局浮层，绑定独立ID与平滑透明度缩放转场，防止多条未读时文字翻转)
             if newsManager.showInAppAlertModal, let alertItem = newsManager.latestWatchlistAlert {
                 watchlistAlertModalView(for: alertItem)
-                    .transition(.scale(scale: 0.88).combined(with: .opacity))
+                    .id(newsManager.currentAlertItem?.id ?? alertItem.id)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .scale(scale: 0.96)),
+                        removal: .opacity
+                    ))
                     .zIndex(100)
             }
         }
@@ -231,10 +235,14 @@ struct ContentView: View {
                 .tag(3)
             }
             
-            // 自选股要闻突发提醒弹窗 (iOS 全局浮层)
+            // 自选股要闻突发提醒弹窗 (iOS 全局浮层，绑定独立ID与平滑透明度缩放转场，防止多条未读时文字翻转)
             if newsManager.showInAppAlertModal, let alertItem = newsManager.latestWatchlistAlert {
                 watchlistAlertModalView(for: alertItem)
-                    .transition(.scale(scale: 0.88).combined(with: .opacity))
+                    .id(newsManager.currentAlertItem?.id ?? alertItem.id)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .scale(scale: 0.96)),
+                        removal: .opacity
+                    ))
                     .zIndex(100)
             }
         }
@@ -1173,6 +1181,8 @@ struct ContentView: View {
                 
                 modalActionButtons(item: item, queueCount: queueCount)
             }
+            .id(item.id)
+            .animation(.easeInOut(duration: 0.2), value: item.id)
             .padding(20)
             .frame(maxWidth: 500)
             .background(Color(white: 0.14))

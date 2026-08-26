@@ -361,7 +361,7 @@ public struct FinancialNewsView: View {
                                     Circle()
                                         .fill(Color.green)
                                         .frame(width: 7, height: 7)
-                                    Text("全网 7x24 实时电报 · 共 \(newsManager.filteredNews.count) 条快讯")
+                                    Text("全网 7x24 实时电报 · 已显示 \(newsManager.filteredNews.count) 条 (历史库已存 \(newsManager.allNews.count) 条)")
                                         .font(.system(size: 11, weight: .medium))
                                         .foregroundColor(.secondary)
                                 }
@@ -375,16 +375,10 @@ public struct FinancialNewsView: View {
                             .padding(.horizontal, 16)
                             .padding(.top, 6)
                             
-                            ForEach(Array(newsManager.filteredNews.enumerated()), id: \.element.id) { index, item in
+                            ForEach(newsManager.filteredNews, id: \.id) { item in
                                 newsCardView(for: item)
                                     .id(item.id)
                                     .onAppear {
-                                        if index > 2 {
-                                            newsManager.isUserViewingOlderNews = true
-                                        } else if index == 0 {
-                                            newsManager.isUserViewingOlderNews = false
-                                        }
-                                        
                                         // 当滚动到倒数第3条时自动触发加载更多
                                         if item.id == newsManager.filteredNews.suffix(3).first?.id {
                                             newsManager.loadMoreHistory()
@@ -430,12 +424,12 @@ public struct FinancialNewsView: View {
                 }
                 .coordinateSpace(name: "NewsScrollCoordinateSpace")
                 .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
-                    // 精准滚动偏移量检测：当向下滚动超过 80pt 时，标记为正在浏览底部/历史消息
+                    // 精准滚动偏移量防抖检测：仅在状态切换时赋值，杜绝 120FPS 持续重绘
                     if offset < -80 {
                         if !newsManager.isUserViewingOlderNews {
                             newsManager.isUserViewingOlderNews = true
                         }
-                    } else if offset >= -30 {
+                    } else if offset >= -20 {
                         if newsManager.isUserViewingOlderNews {
                             newsManager.isUserViewingOlderNews = false
                         }

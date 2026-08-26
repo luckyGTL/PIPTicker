@@ -232,18 +232,22 @@ public struct GlobalMarketView: View {
         .cornerRadius(10)
     }
     
-    // MARK: - 美股板块卡片（红涨绿跌，含盘前盘后）
+    // MARK: - 美股十大核心板块卡片（红涨绿跌，含盘前盘后实时行情）
     private func usSectorCard(for sector: USSectorQuote) -> some View {
-        HStack {
+        let isPrePostActive = sector.prePostChangePercent != nil
+        let primaryPct = isPrePostActive ? (sector.prePostChangePercent ?? sector.changePercent) : sector.changePercent
+        
+        return HStack(spacing: 8) {
             Image(systemName: sector.iconName)
-                .font(.system(size: 14))
+                .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.blue)
-                .frame(width: 24)
+                .frame(width: 22)
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(sector.name)
                     .font(.system(size: 12, weight: .bold))
-                Text("领涨/核心: \(sector.leadingStock)")
+                    .foregroundColor(.primary)
+                Text("领涨: \(sector.leadingStock)")
                     .font(.system(size: 10))
                     .foregroundColor(.secondary)
             }
@@ -251,23 +255,35 @@ public struct GlobalMarketView: View {
             Spacer()
             
             VStack(alignment: .trailing, spacing: 2) {
-                Text(String(format: "%+.2f%%", sector.changePercent))
-                    .font(.system(size: 13, weight: .heavy, design: .rounded))
-                    .foregroundColor(sector.changePercent >= 0 ? .red : .green)
-                
-                if let prePost = sector.prePostChangePercent {
-                    HStack(spacing: 2) {
-                        Text("盘前/后")
-                            .font(.system(size: 9))
+                // 主大字展示当前有效时段的实时涨跌幅 (盘前盘后优先)
+                HStack(spacing: 3) {
+                    if isPrePostActive {
+                        Text("盘前")
+                            .font(.system(size: 9, weight: .bold))
                             .foregroundColor(.purple)
-                        Text(String(format: "%+.2f%%", prePost))
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
-                            .foregroundColor(prePost >= 0 ? .red : .green)
+                            .padding(.horizontal, 3)
+                            .padding(.vertical, 1)
+                            .background(Color.purple.opacity(0.15))
+                            .cornerRadius(3)
+                    }
+                    Text(String(format: "%+.2f%%", primaryPct))
+                        .font(.system(size: 13, weight: .heavy, design: .rounded))
+                        .foregroundColor(primaryPct >= 0 ? .red : .green)
+                }
+                
+                if isPrePostActive {
+                    HStack(spacing: 2) {
+                        Text("常规")
+                            .font(.system(size: 9))
+                            .foregroundColor(.secondary)
+                        Text(String(format: "%+.2f%%", sector.changePercent))
+                            .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                            .foregroundColor(sector.changePercent >= 0 ? .red : .green)
                     }
                 }
             }
         }
-        .padding(8)
+        .padding(9)
         .background(Color.appTertiaryBackground)
         .cornerRadius(8)
     }

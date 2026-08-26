@@ -42,30 +42,46 @@ public struct WatchlistAlertItem: Identifiable, Equatable {
 public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     public static let shared = FinancialNewsManager()
     
-    // 全部快讯原始集合（已多源去重）
+    // 全部快讯原始集合（已多源去重，完整保留历史不硬性删除）
     @Published public var allNews: [NewsItem] = []
     
-    // 当前过滤展示的快讯列表
+    // 当前过滤展示的快讯列表 (分页惰性加载渲染)
     @Published public var filteredNews: [NewsItem] = []
+    
+    // 内存中全量匹配的快讯缓存池与当前分页展示上限
+    private var allFilteredNewsCache: [NewsItem] = []
+    @Published public var displayLimit: Int = 50
     
     // 当前选中分类
     @Published public var selectedCategory: NewsCategory = .all {
-        didSet { applyFilters() }
+        didSet {
+            displayLimit = 50
+            applyFilters()
+        }
     }
     
     // 当前选中来源媒体
     @Published public var selectedSource: NewsSource = .all {
-        didSet { applyFilters() }
+        didSet {
+            displayLimit = 50
+            applyFilters()
+        }
     }
     
     // 推特大V分类筛选
     @Published public var selectedTwitterVCategory: TwitterVCategory = .all {
-        didSet { applyFilters() }
+        didSet {
+            displayLimit = 50
+            applyFilters()
+        }
     }
     
     // 关键词搜索过滤
     @Published public var searchKeyword: String = "" {
-        didSet { applyFilters() }
+        didSet {
+            displayLimit = 50
+            applyFilters()
+        }
     }
     
     // 状态控制与分页加载
@@ -240,7 +256,10 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
                 self?.isSystemNotificationAuthorized = granted
             }
         }
+        // macOS 上通知 delegate 统一由 AppDelegate 管理，此处不覆盖；iOS 上由 FinancialNewsManager 自行托管
+        #if !os(macOS)
         UNUserNotificationCenter.current().delegate = self
+        #endif
     }
     
     public func toggleWatchlistAlert(enabled: Bool) {
@@ -278,6 +297,8 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
         #endif
     }
     
+    // macOS 上通知回调由 AppDelegate 统一处理；iOS 上仍需 FinancialNewsManager 自行处理
+    #if !os(macOS)
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound, .badge])
     }
@@ -285,20 +306,13 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         DispatchQueue.main.async {
-            #if os(macOS)
-            NSApp.activate(ignoringOtherApps: true)
-            if let window = NSApp.windows.first(where: { !($0 is NSPanel) && $0.canBecomeMain }) ?? NSApp.windows.first(where: { !($0 is NSPanel) }) {
-                window.makeKeyAndOrderFront(nil)
-                window.orderFrontRegardless()
-            }
-            #endif
-            
             if let newsId = userInfo["newsId"] as? String {
                 self.locateAndOpenNewsDetail(newsId: newsId)
             }
         }
         completionHandler()
     }
+    #endif
     
     // MARK: - 多源实时抓取总调度（涵盖财联社、东方财富、彭博路透、新浪、华尔街、推特等全部权威信源）
     
@@ -383,10 +397,19 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
         }
     }
     
-    // MARK: - 触底/下滑加载更多历史快讯（多源分页历史引擎，严禁触发旧新闻提醒）
+    // MARK: - 触底/下滑加载更多历史快讯（内存深度分页优先 + 多源历史网络补偿）
     
     public func loadMoreHistory() {
         guard !isLoadingMore, hasMoreHistory else { return }
+        
+        // 1. 如果内存中已有更多过滤后的历史数据，直接从内存递增展示，0 网络延迟秒发展示
+        if displayLimit < allFilteredNewsCache.count {
+            displayLimit = min(allFilteredNewsCache.count, displayLimit + 40)
+            self.filteredNews = Array(allFilteredNewsCache.prefix(displayLimit))
+            return
+        }
+        
+        // 2. 内存历史已展示完毕，触发全网历史分页网络抓取
         isLoadingMore = true
         currentHistoryPage += 1
         
@@ -426,11 +449,12 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
             self.isLoadingMore = false
             
             if olderItems.isEmpty {
-                if self.currentHistoryPage > 15 {
+                if self.currentHistoryPage > 25 {
                     self.hasMoreHistory = false
                 }
             } else {
                 // 关键点：标记 isHistorical: true，防止加载历史数据时误报弹窗！
+                self.displayLimit += 40
                 self.mergeAndDeduplicateNews(newItems: olderItems, isHistorical: true)
             }
         }
@@ -965,54 +989,70 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
         }
     }
     
-    // MARK: - 多源融合、去重与板块概念及全网重磅突发强提醒
+    // MARK: - 多源融合、去重与板块概念及全网重磅突发强提醒 (全异步高并发后台流水线)
     
     private func mergeAndDeduplicateNews(newItems: [NewsItem], isHistorical: Bool = false, forceMerge: Bool = false) {
-        var existingDict = Dictionary(uniqueKeysWithValues: allNews.map { ($0.id, $0) })
-        var contentHashSet = Set(allNews.map { contentFingerprint(for: $0) })
-        var newlyArrivedItems: [NewsItem] = []
-        
-        let currentWatchlist = StockDataManager.shared.watchlist
-        for var item in newItems {
-            let fingerprint = contentFingerprint(for: item)
-            if !contentHashSet.contains(fingerprint) && existingDict[item.id] == nil {
-                // 每次快讯来临均进行 AI 深度多因子金融语义研判与自选多股匹配
-                let aiResult = NewsItem.analyzeAISentimentAndFactors(title: item.title, content: item.content)
-                item.sentiment = aiResult.sentiment
-                item.aiFactorSummary = aiResult.factorSummary
-                item.aiTags = aiResult.aiTags
-                item.matchedWatchlistStocks = getAllMatchedWatchlistAndConcepts(for: item, watchlist: currentWatchlist)
-                
-                existingDict[item.id] = item
-                contentHashSet.insert(fingerprint)
-                newlyArrivedItems.append(item)
-            }
-        }
-        
-        // 如果用户正在查看底部或历史消息，且不是强制合并/历史分页，则把新数据暂存到待更新缓冲区，并在顶部显示“有N条新更新”，点击后再加载，避免页面强行刷新滑动
-        if isUserViewingOlderNews && !forceMerge && !isHistorical && isFirstBatchLoaded && !newlyArrivedItems.isEmpty {
-            for item in newlyArrivedItems {
-                if !pendingIncomingNews.contains(where: { $0.id == item.id }) {
-                    pendingIncomingNews.append(item)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            var existingDict = Dictionary(uniqueKeysWithValues: self.allNews.map { ($0.id, $0) })
+            var contentHashSet = Set(self.allNews.map { self.contentFingerprint(for: $0) })
+            var newlyArrivedItems: [NewsItem] = []
+            
+            let currentWatchlist = StockDataManager.shared.watchlist
+            for var item in newItems {
+                let fingerprint = self.contentFingerprint(for: item)
+                if !contentHashSet.contains(fingerprint) && existingDict[item.id] == nil {
+                    // 每次快讯来临均进行 AI 深度多因子金融语义研判与自选多股匹配
+                    let aiResult = NewsItem.analyzeAISentimentAndFactors(title: item.title, content: item.content)
+                    item.sentiment = aiResult.sentiment
+                    item.aiFactorSummary = aiResult.factorSummary
+                    item.aiTags = aiResult.aiTags
+                    item.matchedWatchlistStocks = self.getAllMatchedWatchlistAndConcepts(for: item, watchlist: currentWatchlist)
+                    
+                    existingDict[item.id] = item
+                    contentHashSet.insert(fingerprint)
+                    newlyArrivedItems.append(item)
                 }
             }
-            // 依然触发突发/自选强提醒
-            checkAndTriggerWatchlistAndConceptAlert(newlyArrivedItems: newlyArrivedItems)
-            return
-        }
-        
-        let merged = Array(existingDict.values)
-            .sorted(by: { $0.publishedAt > $1.publishedAt })
-            .prefix(600)
-        
-        self.allNews = Array(merged)
-        applyFilters()
-        
-        // 关键点：仅在实时新抓取时触发提醒，下滑加载历史（isHistorical == true）坚决不触发旧弹窗！
-        if !isHistorical && isFirstBatchLoaded {
-            checkAndTriggerWatchlistAndConceptAlert(newlyArrivedItems: newlyArrivedItems)
-        } else if !isHistorical {
-            isFirstBatchLoaded = true
+            
+            // 如果用户正在查看底部或历史消息，且不是强制合并/历史分页，则把新数据暂存到待更新缓冲区
+            if self.isUserViewingOlderNews && !forceMerge && !isHistorical && self.isFirstBatchLoaded && !newlyArrivedItems.isEmpty {
+                DispatchQueue.main.async {
+                    for item in newlyArrivedItems {
+                        if !self.pendingIncomingNews.contains(where: { $0.id == item.id }) {
+                            self.pendingIncomingNews.append(item)
+                        }
+                    }
+                    self.checkAndTriggerWatchlistAndConceptAlert(newlyArrivedItems: newlyArrivedItems)
+                }
+                return
+            }
+            
+            // 完整保留历史数据，不直接截断删除（支持最大 3000 条深度历史），下滑滚动时按需惰性加载
+            let merged = Array(existingDict.values)
+                .sorted(by: { $0.publishedAt > $1.publishedAt })
+                .prefix(3000)
+            let finalAllNews = Array(merged)
+            
+            // 在后台预先完成当前频道的过滤计算并缓存
+            let finalFiltered = self.filterNewsList(finalAllNews, watchlist: currentWatchlist)
+            let pagedFiltered = Array(finalFiltered.prefix(self.displayLimit))
+            
+            DispatchQueue.main.async {
+                self.allNews = finalAllNews
+                self.allFilteredNewsCache = finalFiltered
+                self.filteredNews = pagedFiltered
+                self.isRefreshing = false
+                self.lastUpdated = Date()
+                
+                // 关键点：仅在实时新抓取时触发提醒，下滑加载历史坚决不触发旧弹窗
+                if !isHistorical && self.isFirstBatchLoaded {
+                    self.checkAndTriggerWatchlistAndConceptAlert(newlyArrivedItems: newlyArrivedItems)
+                } else if !isHistorical {
+                    self.isFirstBatchLoaded = true
+                }
+            }
         }
     }
     
@@ -1038,15 +1078,42 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
             // 2. 实际核心业务概念 / 参控股子公司 / 真实产业链题材 匹配 (概念题材优先于官方行业板块)
             let concepts = stockConceptsCache[symbol.code] ?? [symbol.name]
             let sortedConcepts = Array(concepts).sorted(by: { $0.count > $1.count })
-            if let matchedConcept = sortedConcepts.first(where: { concept in
-                concept.count >= 2 && fullText.contains(concept.lowercased())
-            }) {
-                results.append(MatchedStockInfo(
-                    symbol: symbol,
-                    matchType: "核心题材",
-                    conceptName: matchedConcept,
-                    reason: "命中自选【\(symbol.name)】核心题材【\(matchedConcept)】"
-                ))
+            
+            var matchedInfo: MatchedStockInfo? = nil
+            for concept in sortedConcepts {
+                guard concept.count >= 2 else { continue }
+                let cLower = concept.lowercased()
+                
+                var isHit = fullText.contains(cLower)
+                if !isHit {
+                    // 全球供应链与核心伙伴同义词泛化匹配 (解决 海力士 <-> SK海力士 / Hynix, 英伟达 <-> Nvidia, 华为 <-> 鸿蒙/问界 等)
+                    if cLower.contains("海力士") || cLower.contains("海太") || cLower.contains("hynix") {
+                        isHit = fullText.contains("海力士") || fullText.contains("sk海力士") || fullText.contains("hynix") || fullText.contains("skhynix") || fullText.contains("海太")
+                    } else if cLower.contains("英伟达") || cLower.contains("nvidia") {
+                        isHit = fullText.contains("英伟达") || fullText.contains("nvidia") || fullText.contains("nvda") || fullText.contains("黄仁勋")
+                    } else if cLower.contains("华为") || cLower.contains("鸿蒙") {
+                        isHit = fullText.contains("华为") || fullText.contains("huawei") || fullText.contains("鸿蒙") || fullText.contains("harmonyos") || fullText.contains("openharmony") || fullText.contains("问界") || fullText.contains("尊界")
+                    } else if cLower.contains("苹果") || cLower.contains("果链") {
+                        isHit = fullText.contains("苹果") || fullText.contains("apple") || fullText.contains("果链") || fullText.contains("iphone")
+                    } else if cLower.contains("特斯拉") || cLower.contains("tesla") {
+                        isHit = fullText.contains("特斯拉") || fullText.contains("tesla") || fullText.contains("马斯克")
+                    }
+                }
+                
+                if isHit {
+                    let displayTag = (cLower.contains("海力士") || cLower.contains("海太")) ? "海力士/海太半导体" : concept
+                    matchedInfo = MatchedStockInfo(
+                        symbol: symbol,
+                        matchType: "核心题材",
+                        conceptName: displayTag,
+                        reason: "命中自选【\(symbol.name)】核心关联【\(displayTag)】要闻"
+                    )
+                    break
+                }
+            }
+            
+            if let match = matchedInfo {
+                results.append(match)
                 continue
             }
             
@@ -1149,6 +1216,13 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
     }
     
     private func sendSystemNotification(stockName: String, matchReason: String, item: NewsItem, matchedCount: Int = 1) {
+        #if os(macOS)
+        // 如果 App 正在前台活跃运行，且已经由 in-app 模态弹窗承接，不重复推送系统通知中心横幅
+        if NSApp.isActive && showInAppAlertModal {
+            return
+        }
+        #endif
+        
         let content = UNMutableNotificationContent()
         let sentimentPrefix = item.sentiment == .bullish ? "【利好】" : (item.sentiment == .bearish ? "【风险】" : (item.importance == .breaking ? "【突发】" : ""))
         let multiSuffix = matchedCount > 1 ? "等\(matchedCount)只" : ""
@@ -1173,28 +1247,41 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
         return String(filtered.prefix(24))
     }
     
-    // MARK: - 筛选与过滤
+    // MARK: - 筛选与过滤 (全异步高性能后台计算)
     
     public func applyFilters() {
         let watchlist = StockDataManager.shared.watchlist
-        let keyword = searchKeyword.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let currentAllNews = self.allNews
+        let limit = self.displayLimit
         
-        self.filteredNews = allNews.map { originalItem -> NewsItem in
-            var item = originalItem
-            if item.matchedWatchlistStocks.isEmpty {
-                item.matchedWatchlistStocks = getAllMatchedWatchlistAndConcepts(for: item, watchlist: watchlist)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            let filtered = self.filterNewsList(currentAllNews, watchlist: watchlist)
+            let paged = Array(filtered.prefix(limit))
+            DispatchQueue.main.async {
+                self.allFilteredNewsCache = filtered
+                self.filteredNews = paged
             }
-            return item
-        }.filter { item in
+        }
+    }
+    
+    /// 纯函数式高并发快讯过滤引擎 (在后台线程运行，0 耗时主线程)
+    public func filterNewsList(_ list: [NewsItem], watchlist: [StockSymbol]) -> [NewsItem] {
+        let keyword = searchKeyword.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let cat = self.selectedCategory
+        let src = self.selectedSource
+        let twitterCat = self.selectedTwitterVCategory
+        
+        return list.filter { item in
             // 1. 媒体来源过滤
-            if selectedSource != .all {
-                if item.source != selectedSource {
+            if src != .all {
+                if item.source != src {
                     return false
                 }
             }
             
             // 2. 分类频道过滤
-            switch selectedCategory {
+            switch cat {
             case .all:
                 break
             case .aStock:
@@ -1211,8 +1298,8 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
                 let isTwitter = item.category == .twitter || item.source == .twitter || item.authorHandle != nil || item.content.contains("推特") || item.content.contains("Twitter") || item.content.contains("X平台")
                 if !isTwitter { return false }
                 
-                if selectedTwitterVCategory != .all {
-                    switch selectedTwitterVCategory {
+                if twitterCat != .all {
+                    switch twitterCat {
                     case .hot:
                         if item.authorCategory != "hot" { return false }
                     case .tech:
@@ -1240,11 +1327,11 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
                     if !symbol.name.isEmpty && (item.relatedStockNames.contains(where: { $0.contains(symbol.name) || symbol.name.contains($0) }) || fullText.contains(symbol.name.lowercased())) {
                         isMatched = true; break
                     }
-                    let concepts = stockConceptsCache[symbol.code] ?? [symbol.name]
+                    let concepts = self.stockConceptsCache[symbol.code] ?? [symbol.name]
                     if concepts.contains(where: { concept in concept.count >= 2 && fullText.contains(concept.lowercased()) }) {
                         isMatched = true; break
                     }
-                    let industries = stockIndustryCache[symbol.code] ?? []
+                    let industries = self.stockIndustryCache[symbol.code] ?? []
                     if industries.contains(where: { ind in ind.count >= 2 && fullText.contains(ind.lowercased()) }) {
                         isMatched = true; break
                     }
@@ -1290,19 +1377,22 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
     
     /// 单股 AI 深度概念与产业链画像分析（动态拉取东方财富 F10 核心题材、主营产品、公司简介，由 AI 抽取高精度概念标签）
     public func analyzeStockWithAI(symbol: StockSymbol, force: Bool = false, completion: (() -> Void)? = nil) {
+        let cacheKey = "PiP_ConceptsCache_v5_\(symbol.code)"
+        let indKey = "PiP_IndustryCache_v5_\(symbol.code)"
+        
         if force {
-            UserDefaults.standard.removeObject(forKey: "PiP_ConceptsCache_\(symbol.code)")
-            UserDefaults.standard.removeObject(forKey: "PiP_IndustryCache_\(symbol.code)")
+            UserDefaults.standard.removeObject(forKey: cacheKey)
+            UserDefaults.standard.removeObject(forKey: indKey)
             stockConceptsCache.removeValue(forKey: symbol.code)
             stockIndustryCache.removeValue(forKey: symbol.code)
         }
         
         // 1. 如果已有有效缓存且不强制重分析，直接加载
-        if !force, let saved = UserDefaults.standard.stringArray(forKey: "PiP_ConceptsCache_\(symbol.code)"), !saved.isEmpty {
+        if !force, let saved = UserDefaults.standard.stringArray(forKey: cacheKey), !saved.isEmpty {
             var cachedConcepts = Set(saved)
             cachedConcepts.insert(symbol.name)
             stockConceptsCache[symbol.code] = cachedConcepts
-            if let savedInd = UserDefaults.standard.stringArray(forKey: "PiP_IndustryCache_\(symbol.code)") {
+            if let savedInd = UserDefaults.standard.stringArray(forKey: indKey) {
                 stockIndustryCache[symbol.code] = Set(savedInd)
             }
             applyFilters()
@@ -1320,8 +1410,8 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
                 self.stockConceptsCache[symbol.code] = finalConcepts
                 self.stockIndustryCache[symbol.code] = onlineIndustries
                 
-                UserDefaults.standard.set(Array(finalConcepts), forKey: "PiP_ConceptsCache_\(symbol.code)")
-                UserDefaults.standard.set(Array(onlineIndustries), forKey: "PiP_IndustryCache_\(symbol.code)")
+                UserDefaults.standard.set(Array(finalConcepts), forKey: cacheKey)
+                UserDefaults.standard.set(Array(onlineIndustries), forKey: indKey)
                 
                 self.applyFilters()
                 completion?()
@@ -1494,13 +1584,57 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
         var tags = Set<String>()
         tags.insert(symbol.name)
         
-        // 1. 纳入所有官方主题简称与主营产品
+        // 1. 重点核心A股深度产业链与全球巨头绑定映射库 (解决太极实业-海力士、华工科技-光模块等关键关联)
+        let specialStockDirectConceptMap: [String: [String]] = [
+            // 太极实业 (持有海太半导体55%控股权，为SK海力士DRAM主力封测基地；控股十一科技，洁净室工程龙头)
+            "600667": ["海力士", "SK海力士", "SK Hynix", "Hynix", "海太半导体", "HBM", "HBM3E", "DRAM", "NAND", "存储芯片", "半导体封测", "先进封装", "十一科技", "洁净室", "洁净室工程", "集成电路"],
+            // 香农芯创 (SK海力士国内核心代理分销与存储模组)
+            "300475": ["海力士", "SK海力士", "SK Hynix", "Hynix", "HBM", "存储芯片", "主控芯片", "电子元器件分销"],
+            // 雅克科技 (SK海力士核心前驱体与半导体材料供应商)
+            "002409": ["海力士", "SK海力士", "SK Hynix", "Hynix", "前驱体", "存储芯片材料", "光刻胶", "电子特气", "半导体材料"],
+            // 华工科技 (全资子公司华工正源为光模块/光芯片/CPO核心厂商)
+            "000988": ["光模块", "CPO", "800G", "1.6T", "光芯片", "华工正源", "光通信", "硅光", "激光加工", "汽车传感器"],
+            // 中际旭创 (全球光模块龙头，英伟达主力供应商)
+            "300308": ["光模块", "CPO", "800G", "1.6T", "光通信", "英伟达", "算力光互联", "天孚通信", "新易盛"],
+            // 新易盛
+            "300502": ["光模块", "CPO", "800G", "1.6T", "光通信", "英伟达", "AI算力光互联"],
+            // 天孚通信
+            "300394": ["光器件", "光模块", "CPO", "800G", "1.6T", "光引擎", "光通信", "英伟达"],
+            // 华为生态核心
+            "000158": ["华为", "华为鸿蒙", "开源鸿蒙", "HarmonyOS", "OpenHarmony", "北明软件", "华为昇腾", "华为云", "信创"],
+            "300339": ["华为", "华为鸿蒙", "开源鸿蒙", "OpenHarmony", "HopeRun", "华为昇腾", "开源软件"],
+            "002261": ["华为", "华为鸿蒙", "华为昇腾", "湘江鲲鹏", "AI服务器", "开源鸿蒙"],
+            "601127": ["华为", "问界", "鸿蒙智行", "华为汽车", "智能驾驶", "乾崑智驾", "新能源汽车"],
+            "600418": ["华为", "尊界", "鸿蒙智行", "华为汽车", "新能源汽车", "智能驾驶"],
+            // 英伟达算力服务器
+            "601138": ["英伟达", "GB200", "Blackwell", "AI服务器", "液冷服务器", "富士康", "算力中心"],
+            "000977": ["AI服务器", "算力服务器", "液冷服务器", "智算中心", "英伟达", "昇腾"],
+            "603019": ["海光信息", "中科院", "算力服务器", "超算中心", "液冷", "信创CPU"],
+            // 先进封装与存储
+            "002156": ["AMD", "先进封装", "Chiplet", "CoWoS", "半导体封测", "AI芯片封测"],
+            "600584": ["先进封装", "Chiplet", "半导体封测", "晶圆级封装", "存储芯片封测"],
+            "603986": ["存储芯片", "NOR Flash", "DRAM", "MCU", "长鑫存储", "合肥长鑫"],
+            // 光纤海缆
+            "600487": ["光纤光缆", "海洋通信", "海缆", "特高压", "光通信"],
+            "601869": ["光纤光缆", "光棒", "空芯光纤", "光通信", "数据中心光缆"],
+            // 低空经济
+            "002085": ["低空经济", "eVTOL", "飞行汽车", "通航", "轻量化镁合金"],
+            "000099": ["低空经济", "eVTOL", "通航运营", "直升机运输", "空域管理"],
+            // 无人驾驶
+            "600611": ["Robotaxi", "萝卜快跑", "百度Apollo", "自动驾驶出租车", "智能网联汽车"]
+        ]
+        
+        if let directConcepts = specialStockDirectConceptMap[symbol.code] {
+            tags.formUnion(directConcepts)
+        }
+        
+        // 2. 纳入所有官方主题简称与主营产品
         tags.formUnion(themes)
         tags.formUnion(products)
         
         let allCombinedText = (Array(themes) + Array(products) + Array(industries) + descriptions).joined(separator: " ").lowercased()
         
-        // 2. AI 核心金融实体与产业链知识图谱映射库
+        // 3. AI 核心金融实体与产业链知识图谱映射库
         let financialEntityMap: [(keywords: [String], associatedConcepts: [String])] = [
             // 光通信 / 光模块 / CPO / 800G / 光纤光缆 (涵盖华工科技[华工正源]、中际旭创、新易盛、天孚通信、亨通光电、长飞光纤等)
             (
@@ -1509,7 +1643,7 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
             ),
             // 半导体 / 存储芯片 / 先进封装 / 封测 / 洁净室 (涵盖太极实业[海太半导体/十一科技]、通富微电、长电科技、兆易创新等)
             (
-                keywords: ["海太半导体", "存储芯片", "半导体封测", "先进封装", "sk海力士", "海力士", "hbm", "dram", "nand", "chiplet", "cowos", "洁净室", "十一科技", "半导体洁净室", "晶圆级封装", "存储模组", "ssd", "集成电路封测", "晶圆代工"],
+                keywords: ["海太半导体", "太极实业", "存储芯片", "半导体封测", "先进封装", "sk海力士", "海力士", "hbm", "dram", "nand", "chiplet", "cowos", "洁净室", "十一科技", "半导体洁净室", "晶圆级封装", "存储模组", "ssd", "集成电路封测", "晶圆代工"],
                 associatedConcepts: ["存储芯片", "先进封装", "半导体封测", "海太半导体", "SK海力士", "海力士", "海力士封测", "HBM", "DRAM", "NAND", "Chiplet", "洁净室", "洁净室工程", "十一科技", "半导体芯片", "集成电路"]
             ),
             // 华为生态 / 鸿蒙 / 昇腾算力 / 智能驾驶 (涵盖常山北明[北明软件]、润和软件、拓维信息、四川长虹、高新发展、赛力斯等)
@@ -1564,7 +1698,7 @@ public final class FinancialNewsManager: NSObject, ObservableObject, UNUserNotif
             )
         ]
         
-        // 3. 执行 AI 语义推理：只要文本命中任一产业链的关键词，立即将该产业链的精准核心概念注入个股知识画像
+        // 4. 执行 AI 语义推理：只要文本命中任一产业链的关键词，立即将该产业链的精准核心概念注入个股知识画像
         for rule in financialEntityMap {
             let hitCount = rule.keywords.filter { allCombinedText.contains($0) }.count
             if hitCount > 0 {
